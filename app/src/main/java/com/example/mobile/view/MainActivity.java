@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     UserDAOImpl userDAOImpl;
     public static final String DATABASE_NAME="mobile.db";
 
+    //hehe
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
