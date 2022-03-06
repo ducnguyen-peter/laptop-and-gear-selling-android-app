@@ -17,11 +17,15 @@ public class MainActivity extends AppCompatActivity {
     Button btn_signin, btn_signup;
     UserDAOImpl userDAOImpl;
 
+    public static final String DATABASE_NAME="mobile.db";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //delete database for importing newly added databases in "./assets/databases"
+        this.deleteDatabase(DATABASE_NAME);
         userDAOImpl = new UserDAOImpl(this);
 
         btn_signin = findViewById(R.id.btn_signin);

@@ -10,11 +10,11 @@ import com.example.mobile.model.User;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 public class UserDAOImpl extends SQLiteAssetHelper implements UserDAO {
-    public static final String dbName="mobile.db";
+    public static final String DATABASE_NAME="mobile.db";
     private static final int DATABASE_VERSION = 1;
 
     public UserDAOImpl(Context context){
-        super(context, dbName,null,DATABASE_VERSION);
+        super(context, DATABASE_NAME,null,DATABASE_VERSION);
     }
 
     @Override
