@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     EditText tf_username, pf_password;
     Button btn_signin, btn_signup;
     UserDAOImpl userDAOImpl;
-
+    //hehe
     public static final String DATABASE_NAME="mobile.db";
 
     @Override
