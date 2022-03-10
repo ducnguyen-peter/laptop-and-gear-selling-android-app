@@ -1,62 +1,50 @@
 package com.example.mobile.view;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import com.example.mobile.R;
+import com.example.mobile.utils.PreferenceUtils;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.mobile.R;
-import com.example.mobile.controller.UserDAO.UserDAOImpl;
-import com.example.mobile.model.User;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    EditText tf_username, pf_password;
-    Button btn_signin, btn_signup;
-    UserDAOImpl userDAOImpl;
-    public static final String DATABASE_NAME="mobile.db";
-
-    //hehe
-    
+    private TextView txtWelcome;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        txtWelcome = findViewById(R.id.txt_welcome);
+        Intent intent = this.getIntent();
+        if(intent.hasExtra("NAME")){
+            String username = intent.getExtras().getString("NAME");
+            txtWelcome.setText("Welcome " + username);
+        } else{
+            String username = PreferenceUtils.getUsername(this);
+            txtWelcome.setText("Welcome " + username);
+        }
+    }
 
-        //delete database for importing newly added databases in "./assets/databases"
-        this.deleteDatabase(DATABASE_NAME);
-        userDAOImpl = new UserDAOImpl(this);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.getMenuInflater().inflate(R.menu.logout_menu, menu);
+        return true;
+    }
 
-        btn_signin = findViewById(R.id.btn_signin);
-        btn_signup = findViewById(R.id.btn_signup);
-        tf_username = findViewById(R.id.tf_username);
-        pf_password = findViewById(R.id.pf_password);
-
-        btn_signin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String username = tf_username.getText().toString();
-                String password = pf_password.getText().toString();
-                System.out.println(username+","+password);
-
-                User u = userDAOImpl.checkCredentials(username, password);
-                if(u == null){
-                    System.out.println("Cannot find!");
-                }
-                else{
-                    System.out.println("found!");
-                }
-            }
-        });
-
-        btn_signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                startActivity(intent);
-            }
-        });
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==R.id.logout){
+            PreferenceUtils.savePassword(null, this);
+            PreferenceUtils.saveUsername(null, this);
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            this.finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
