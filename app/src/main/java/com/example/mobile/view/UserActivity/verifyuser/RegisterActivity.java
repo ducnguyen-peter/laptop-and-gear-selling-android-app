@@ -1,4 +1,4 @@
-package com.example.mobile.view;
+package com.example.mobile.view.UserActivity.verifyuser;
 
 import android.os.Bundle;
 import android.view.View;

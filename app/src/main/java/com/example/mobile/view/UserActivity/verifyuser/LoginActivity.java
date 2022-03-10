@@ -1,4 +1,4 @@
-package com.example.mobile.view;
+package com.example.mobile.view.UserActivity.verifyuser;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,10 +14,11 @@ import com.example.mobile.controller.InputValidation;
 import com.example.mobile.controller.UserDAO.UserDAOImpl;
 import com.example.mobile.model.User;
 import com.example.mobile.utils.PreferenceUtils;
+import com.example.mobile.view.UserActivity.main.MainActivity;
 
 public class LoginActivity extends AppCompatActivity {
     EditText edtUsername, edtPassword;
-    Button btnSignIn, btnSignUp;
+    Button btnSignIn, btnSignUp, btnForgotPass;
     UserDAOImpl userDAOImpl;
     InputValidation inputValidation;
     public static final String DATABASE_NAME="mobile.db";
@@ -34,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
 
         btnSignIn = findViewById(R.id.btn_signin);
         btnSignUp = findViewById(R.id.btn_signup_link);
+        btnForgotPass = findViewById(R.id.btn_forgot_pass);
+
         edtUsername = findViewById(R.id.edt_username);
         edtPassword = findViewById(R.id.edt_password);
 
@@ -58,6 +61,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnForgotPass.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(getApplicationContext(), ForgotPassIdentificationActivity.class);
                 startActivity(intent);
             }
         });

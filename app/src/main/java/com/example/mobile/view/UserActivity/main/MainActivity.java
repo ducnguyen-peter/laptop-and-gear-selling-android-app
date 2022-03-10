@@ -1,9 +1,10 @@
-package com.example.mobile.view;
+package com.example.mobile.view.UserActivity.main;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.mobile.R;
 import com.example.mobile.utils.PreferenceUtils;
+import com.example.mobile.view.UserActivity.verifyuser.LoginActivity;
 
 import android.content.Intent;
 import android.os.Bundle;

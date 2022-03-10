@@ -11,4 +11,9 @@
     <string name="email_or_tel">Email or Tel</string>
     <string name="log_out">Log out</string>
     <string name="string_log_out">Log out</string>
+    <string name="email_password_or_username">Your email, password, or username</string>
+    <string name="next">Next</string>
+    <string name="enter_your_new_password">Enter your new password</string>
+    <string name="re_enter_your_new_password">Re-enter your new password</string>
+    <string name="reset_your_password">Reset your password</string>
 </resources>

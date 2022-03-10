@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.LoginActivity">
+    tools:context=".view.UserActivity.verifyuser.LoginActivity">
 
     <TextView
         android:id="@+id/textView3"
@@ -86,5 +86,15 @@
         app:layout_constraintEnd_toEndOf="@+id/btn_signin"
         app:layout_constraintStart_toStartOf="@+id/btn_signin"
         app:layout_constraintTop_toTopOf="@+id/btn_signin" />
+
+    <Button
+        android:id="@+id/btn_forgot_pass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="76dp"
+        android:text="Forgot password"
+        app:layout_constraintEnd_toEndOf="@+id/btn_signup_link"
+        app:layout_constraintStart_toStartOf="@+id/btn_signup_link"
+        app:layout_constraintTop_toTopOf="@+id/btn_signup_link" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
