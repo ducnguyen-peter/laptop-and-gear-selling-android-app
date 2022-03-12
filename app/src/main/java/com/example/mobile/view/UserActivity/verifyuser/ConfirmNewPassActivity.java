@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import com.example.mobile.R;
 import com.example.mobile.controller.InputValidation;
+import com.example.mobile.controller.UserDAO.DBHelper;
 import com.example.mobile.controller.UserDAO.UserDAOImpl;
 
 public class ConfirmNewPassActivity extends AppCompatActivity implements View.OnClickListener {
@@ -19,7 +20,7 @@ public class ConfirmNewPassActivity extends AppCompatActivity implements View.On
     private Button btnResetPass;
 
     private InputValidation inputValidation;
-    private UserDAOImpl userDAOImpl;
+    private UserDAOImpl DBHelper;
 
     private String userIdentity;
     @Override
@@ -35,7 +36,7 @@ public class ConfirmNewPassActivity extends AppCompatActivity implements View.On
         btnResetPass = findViewById(R.id.btn_reset_password);
         btnResetPass.setOnClickListener(this);
         inputValidation = new InputValidation(this);
-        userDAOImpl = new UserDAOImpl(this);
+        DBHelper = new UserDAOImpl(this);
         userIdentity = getIntent().getExtras().getString("USER_IDENTIFIER");
     }
 
@@ -61,7 +62,7 @@ public class ConfirmNewPassActivity extends AppCompatActivity implements View.On
         String repeatPass = edtRepeatPass.getText().toString().trim();
         String[] columnPassword = new String[]{"password"};
         String[] valueNewPassword = new String[]{newPass};
-        userDAOImpl.updateUser(userIdentity, columnPassword, valueNewPassword);
+        DBHelper.updateUser(userIdentity, columnPassword, valueNewPassword);
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         this.finish();

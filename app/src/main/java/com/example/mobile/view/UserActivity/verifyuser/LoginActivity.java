@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobile.R;
 import com.example.mobile.controller.InputValidation;
+import com.example.mobile.controller.UserDAO.DBHelper;
 import com.example.mobile.controller.UserDAO.UserDAOImpl;
 import com.example.mobile.model.User;
 import com.example.mobile.utils.PreferenceUtils;
@@ -19,7 +20,7 @@ import com.example.mobile.view.UserActivity.main.MainActivity;
 public class LoginActivity extends AppCompatActivity {
     EditText edtUsername, edtPassword;
     Button btnSignIn, btnSignUp, btnForgotPass;
-    UserDAOImpl userDAOImpl;
+    UserDAOImpl DBHelper;
     InputValidation inputValidation;
     public static final String DATABASE_NAME="mobile.db";
 
@@ -40,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         edtUsername = findViewById(R.id.edt_username);
         edtPassword = findViewById(R.id.edt_password);
 
-        userDAOImpl = new UserDAOImpl(this);
+        DBHelper = new UserDAOImpl(this);
         inputValidation = new InputValidation(this);
 
         if(PreferenceUtils.getUsername(this)!=null){
@@ -85,8 +86,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(){
-        if(userDAOImpl.checkLogin(edtUsername, edtPassword)){
-            User user = userDAOImpl.getUser(edtUsername);
+        if(DBHelper.checkLogin(edtUsername, edtPassword)){
+            User user = DBHelper.getUser(edtUsername);
             System.out.println("User name: "+user.getUsername());
             Intent mainIntent = new Intent(this, MainActivity.class);
             mainIntent.putExtra("NAME", user.getUsername());

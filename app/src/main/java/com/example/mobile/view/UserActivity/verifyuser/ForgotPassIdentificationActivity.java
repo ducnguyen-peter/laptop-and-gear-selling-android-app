@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.mobile.R;
 import com.example.mobile.controller.InputValidation;
+import com.example.mobile.controller.UserDAO.DBHelper;
 import com.example.mobile.controller.UserDAO.UserDAOImpl;
 
 public class ForgotPassIdentificationActivity extends AppCompatActivity implements View.OnClickListener {
@@ -18,7 +19,7 @@ public class ForgotPassIdentificationActivity extends AppCompatActivity implemen
     private Button btnNext;
 
     private InputValidation inputValidation;
-    private UserDAOImpl userDAOImpl;
+    private UserDAOImpl DBHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +32,7 @@ public class ForgotPassIdentificationActivity extends AppCompatActivity implemen
         btnNext = findViewById(R.id.btn_next_forgotpass);
         btnNext.setOnClickListener(this);
         inputValidation = new InputValidation(this);
-        userDAOImpl = new UserDAOImpl(this);
+        DBHelper = new UserDAOImpl(this);
     }
 
     @Override
@@ -41,7 +42,7 @@ public class ForgotPassIdentificationActivity extends AppCompatActivity implemen
             if(!inputValidation.isInputEditTextFilled(edtIdentity, "Please fill your username, email or tel")){
                 return;
             }
-            if(userDAOImpl.getUser(edtIdentity)!=null){
+            if(DBHelper.getUser(edtIdentity)!=null){
                 Intent intent = new Intent(this, ConfirmNewPassActivity.class);
                 intent.putExtra("USER_IDENTIFIER", edtIdentity.getText().toString().trim());
                 startActivity(intent);

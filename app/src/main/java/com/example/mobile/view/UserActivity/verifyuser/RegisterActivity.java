@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobile.R;
 import com.example.mobile.controller.InputValidation;
+import com.example.mobile.controller.UserDAO.DBHelper;
 import com.example.mobile.controller.UserDAO.UserDAOImpl;
 import com.example.mobile.model.User;
 

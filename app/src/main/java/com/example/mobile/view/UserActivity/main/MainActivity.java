@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        txtWelcome = findViewById(R.id.txt_welcome);
+        init();
         Intent intent = this.getIntent();
         if(intent.hasExtra("NAME")){
             String username = intent.getExtras().getString("NAME");
@@ -29,9 +29,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void init(){
+        txtWelcome = findViewById(R.id.txt_welcome);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        this.getMenuInflater().inflate(R.menu.logout_menu, menu);
+        this.getMenuInflater().inflate(R.menu.actionbar_menu, menu);
         return true;
     }
 
