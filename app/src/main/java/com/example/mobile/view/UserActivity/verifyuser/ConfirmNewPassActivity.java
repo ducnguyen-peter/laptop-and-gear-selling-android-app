@@ -9,8 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.mobile.R;
-import com.example.mobile.controller.InputValidation;
-import com.example.mobile.controller.UserDAO.DBHelper;
+import com.example.mobile.utils.InputValidation;
 import com.example.mobile.controller.UserDAO.UserDAOImpl;
 
 public class ConfirmNewPassActivity extends AppCompatActivity implements View.OnClickListener {

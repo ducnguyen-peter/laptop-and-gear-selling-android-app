@@ -10,8 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.mobile.R;
-import com.example.mobile.controller.InputValidation;
-import com.example.mobile.controller.UserDAO.DBHelper;
+import com.example.mobile.utils.InputValidation;
 import com.example.mobile.controller.UserDAO.UserDAOImpl;
 
 public class ForgotPassIdentificationActivity extends AppCompatActivity implements View.OnClickListener {

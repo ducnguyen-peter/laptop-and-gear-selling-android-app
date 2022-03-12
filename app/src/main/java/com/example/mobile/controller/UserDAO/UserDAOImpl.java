@@ -10,8 +10,9 @@ import android.util.Log;
 import android.util.Patterns;
 import android.widget.EditText;
 
-import com.example.mobile.model.User;
+import com.example.mobile.model.user.User;
 import com.example.mobile.utils.Constant;
+import com.example.mobile.utils.DBHelper;
 
 public class UserDAOImpl implements UserDAO{
 
@@ -37,6 +38,7 @@ public class UserDAOImpl implements UserDAO{
         dbHelper.close();
     }
 
+    @Override
     public void addUser(User user){
         ContentValues values = new ContentValues();
         values.put(Constant.COLUMN_USER_NAME, user.getUsername());
@@ -51,6 +53,7 @@ public class UserDAOImpl implements UserDAO{
 
     }
 
+    @Override
     public void updateUser(String identity, String[] columns, String[] values){
 
         String selection;
@@ -79,6 +82,7 @@ public class UserDAOImpl implements UserDAO{
         }
     }
 
+    @Override
     public boolean checkLogin(EditText txtIdentity, EditText txtPassword){
         String identity = txtIdentity.getText().toString().trim();
         String password = txtPassword.getText().toString().trim();
@@ -106,6 +110,7 @@ public class UserDAOImpl implements UserDAO{
         return false;
     }
 
+    @Override
     public User getUser(EditText txtInput){
         String input = txtInput.getText().toString().trim();
         String selection;
@@ -119,7 +124,7 @@ public class UserDAOImpl implements UserDAO{
         String[] selectionArgs = {
                 input
         };
-        Cursor cursor = sqLiteDatabase.query(Constant.TABLE_USER, Constant.allColumns, selection, selectionArgs, null, null, null);
+        Cursor cursor = sqLiteDatabase.query(Constant.TABLE_USER, Constant.allUserColumns, selection, selectionArgs, null, null, null);
         int cursorCount = cursor.getCount();
         if(cursorCount<=0) return null;
         cursor.moveToFirst();
@@ -133,6 +138,7 @@ public class UserDAOImpl implements UserDAO{
         return user;
     }
 
+    @Override
     public boolean checkExistedUser(EditText txtInput){
         String input = txtInput.getText().toString().trim();
         String[] columns = {

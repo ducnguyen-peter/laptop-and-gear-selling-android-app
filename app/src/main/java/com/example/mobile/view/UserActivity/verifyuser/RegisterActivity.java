@@ -9,10 +9,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobile.R;
-import com.example.mobile.controller.InputValidation;
-import com.example.mobile.controller.UserDAO.DBHelper;
+import com.example.mobile.utils.InputValidation;
 import com.example.mobile.controller.UserDAO.UserDAOImpl;
-import com.example.mobile.model.User;
+import com.example.mobile.model.user.User;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText edtUsername;

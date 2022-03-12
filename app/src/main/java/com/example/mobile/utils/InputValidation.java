@@ -1,4 +1,4 @@
-package com.example.mobile.controller;
+package com.example.mobile.utils;
 
 import android.app.Activity;
 import android.content.Context;

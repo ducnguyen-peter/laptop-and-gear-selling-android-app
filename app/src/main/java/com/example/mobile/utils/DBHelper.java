@@ -1,4 +1,4 @@
-package com.example.mobile.controller.UserDAO;
+package com.example.mobile.utils;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
