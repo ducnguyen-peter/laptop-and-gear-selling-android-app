@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         itemDAOImpl = new ItemDAOImpl(this);
         itemList = itemDAOImpl.getAllItems();
+        System.out.println(itemList.get(0).getElectronics().getName());
+        System.out.println(itemList.get(1).getElectronics().getName());
         ItemGridAdapter adapter = new ItemGridAdapter(this, itemList);
         gridItem.setAdapter(adapter);
         gridItem.setOnItemClickListener(this);
