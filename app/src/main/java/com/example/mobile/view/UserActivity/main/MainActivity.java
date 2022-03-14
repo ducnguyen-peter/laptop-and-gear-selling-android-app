@@ -3,6 +3,8 @@ package com.example.mobile.view.UserActivity.main;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.mobile.R;
+import com.example.mobile.controller.ItemDAO.ItemDAOImpl;
+import com.example.mobile.model.Item.Item;
 import com.example.mobile.utils.PreferenceUtils;
 import com.example.mobile.view.UserActivity.verifyuser.LoginActivity;
 
@@ -10,10 +12,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private TextView txtWelcome;
+    private ArrayList<Item> itemList;
+    private GridView gridItem;
+    private ItemDAOImpl itemDAOImpl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +42,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void init(){
         txtWelcome = findViewById(R.id.txt_welcome);
+        gridItem = findViewById(R.id.grid_item);
+
+        itemDAOImpl = new ItemDAOImpl(this);
+        itemList = itemDAOImpl.getAllItems();
+        ItemGridAdapter adapter = new ItemGridAdapter(this, itemList);
+        gridItem.setAdapter(adapter);
+        gridItem.setOnItemClickListener(this);
     }
 
     @Override
@@ -51,5 +69,11 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Item item = itemList.get(i);
+
     }
 }

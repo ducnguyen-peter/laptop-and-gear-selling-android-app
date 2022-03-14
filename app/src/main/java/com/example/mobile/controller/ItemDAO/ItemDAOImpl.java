@@ -30,6 +30,9 @@ public class ItemDAOImpl implements ItemDAO{
     }
     private void open(){
         sqLiteDatabase = dbHelper.getWritableDatabase();
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Electronics_fts");
+        sqLiteDatabase.execSQL("CREATE VIRTUAL TABLE Electronics_fts USING fts4(Name)");
+        sqLiteDatabase.execSQL("INSERT INTO Electronics_fts (Name) SELECT Name FROM Electronics");
     }
 
     private void close(){
@@ -39,12 +42,11 @@ public class ItemDAOImpl implements ItemDAO{
     @Override
     public ArrayList<Item> searchItem(String input) {
         ArrayList<Item> searchResultItem = new ArrayList<>();
-        String query = "SELECT Item.Id, Item.UnitPrice, Item.Quantity, Item.TotalBuy, " +
-                "Electronics.Name, Electronics.Description, Electronics.ImageLink " +
-                "FROM Item, Electronics " +
-                "WHERE Item.ElectronicsId = Electronics.id AND Item.ElectronicsId = ?";
+        String query = "SELECT Item.Id, Item.UnitPrice, Item.Quantity, Item.TotalBuy, Electronics.Name, Electronics.Description, Electronics.ImageLink\n" +
+                "FROM Item, Electronics\n" +
+                "WHERE Electronics.Id IN (SELECT rowid FROM Electronics_fts WHERE Name MATCH ?)";
 
-        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{input});
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{input + "*"});
         int cursorCount = cursor.getCount();
         if(cursorCount<=0) return null;
         cursor.moveToFirst();
@@ -61,20 +63,35 @@ public class ItemDAOImpl implements ItemDAO{
 
     @Override
     public ArrayList<Item> getAllItems() {
-        return null;
+        ArrayList<Item> allItems = new ArrayList<>();
+        String query = "SELECT Item.Id, Item.UnitPrice, Item.Quantity, Item.TotalBuy, Electronics.Name, Electronics.Description, Electronics.ImageLink\n" +
+                "                FROM Item, Electronics\n" +
+                "                WHERE Item.ElectronicsId = Electronics.Id;";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{});
+        int cursorCount = cursor.getCount();
+        if(cursorCount<=0) return null;
+        cursor.moveToFirst();
+        Item item;
+        while(!cursor.isAfterLast()){
+            item = cursorToItem(cursor);
+            allItems.add(item);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return allItems;
     }
 
     private Item cursorToItem(Cursor cursor){
         Item item = new Item();
         Electronics electronics = new Electronics();
-        item.setId(cursor.getInt(1));
-        item.setUnitPrice(cursor.getFloat(2));
-        item.setQuantity(cursor.getInt(3));
-        item.setTotalBuy(cursor.getInt(4));
+        item.setId(cursor.getInt(0));
+        item.setUnitPrice(cursor.getFloat(1));
+        item.setQuantity(cursor.getInt(2));
+        item.setTotalBuy(cursor.getInt(3));
 
-        electronics.setName(cursor.getString(5));
-        electronics.setDescription(cursor.getString(6));
-        electronics.setImageLink(cursor.getString(7));
+        electronics.setName(cursor.getString(4));
+        electronics.setDescription(cursor.getString(5));
+        electronics.setImageLink(cursor.getString(6));
 
         item.setElectronics(electronics);
         return item;

@@ -62,6 +62,7 @@ public class Constant {
 
     public final String[] allCategoryElectronicsColumns = {COLUMN_CATEGORY_ELECTRONICS_CATEGORY_ID, COLUMN_CATEGORY_ELECTRONICS_ELECTRONICS_ID};
 
+    //
     //key for SharedPreferences
     public static String KEY_USERNAME = "username";
     public static String KEY_EMAIL = "email";
