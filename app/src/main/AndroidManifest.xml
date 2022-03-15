@@ -18,7 +18,8 @@
             android:exported="false" />
         <activity
             android:name=".view.UserActivity.main.MainActivity"
-            android:exported="false" >
+            android:exported="false"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>

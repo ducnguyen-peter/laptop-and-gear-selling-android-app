@@ -44,7 +44,7 @@ public class ItemDAOImpl implements ItemDAO{
         ArrayList<Item> searchResultItem = new ArrayList<>();
         String query = "SELECT Item.Id, Item.UnitPrice, Item.Quantity, Item.TotalBuy, Electronics.Name, Electronics.Description, Electronics.ImageLink\n" +
                 "FROM Item, Electronics\n" +
-                "WHERE Electronics.Id IN (SELECT rowid FROM Electronics_fts WHERE Name MATCH ?)";
+                "WHERE ElectronicsId = Electronics.Id AND Electronics.Id IN (SELECT rowid FROM Electronics_fts WHERE Name MATCH ?)";
 
         Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{input + "*"});
         int cursorCount = cursor.getCount();
@@ -79,6 +79,13 @@ public class ItemDAOImpl implements ItemDAO{
         }
         cursor.close();
         return allItems;
+    }
+
+    public Cursor getAllItemsCursor(){
+        String query = "SELECT Item.Id, Item.UnitPrice, Item.Quantity, Item.TotalBuy, Electronics.Name, Electronics.Description, Electronics.ImageLink\n" +
+                "                FROM Item, Electronics\n" +
+                "                WHERE Item.ElectronicsId = Electronics.Id;";
+        return sqLiteDatabase.rawQuery(query, new String[]{});
     }
 
     private Item cursorToItem(Cursor cursor){
