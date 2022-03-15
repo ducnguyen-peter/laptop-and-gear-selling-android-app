@@ -2,6 +2,8 @@ package com.example.mobile.view.UserActivity.main;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.provider.SearchRecentSuggestions;
 import android.widget.SearchView;
 
 import com.example.mobile.R;
@@ -55,6 +57,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private void handleIntent(Intent intent){
         if(Intent.ACTION_SEARCH.equals(intent.getAction())){
             String input = intent.getStringExtra(SearchManager.QUERY);
+            //save recent query
+            SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this, RecentQuerySuggestionProvider.AUTHORITY, RecentQuerySuggestionProvider.MODE);
+            suggestions.saveRecentQuery(input, null);
+            //update the item list
             itemList.clear();
             itemList.addAll(itemDAOImpl.searchItem(input));
             itemGridAdapter.notifyDataSetChanged();
@@ -66,9 +72,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         gridItem = findViewById(R.id.grid_item);
 
         itemDAOImpl = new ItemDAOImpl(this);
+
         itemList = itemDAOImpl.getAllItems();
-        System.out.println(itemList.get(0).getElectronics().getName());
-        System.out.println(itemList.get(1).getElectronics().getName());
         itemGridAdapter = new ItemGridAdapter(this, itemList);
         gridItem.setAdapter(itemGridAdapter);
         gridItem.setOnItemClickListener(this);
@@ -80,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false);
 

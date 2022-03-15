@@ -38,6 +38,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider android:name=".view.UserActivity.main.RecentQuerySuggestionProvider"
+            android:authorities="com.example.RecentQuerySuggestionProvider" />
 
     </application>
 

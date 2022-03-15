@@ -81,13 +81,6 @@ public class ItemDAOImpl implements ItemDAO{
         return allItems;
     }
 
-    public Cursor getAllItemsCursor(){
-        String query = "SELECT Item.Id, Item.UnitPrice, Item.Quantity, Item.TotalBuy, Electronics.Name, Electronics.Description, Electronics.ImageLink\n" +
-                "                FROM Item, Electronics\n" +
-                "                WHERE Item.ElectronicsId = Electronics.Id;";
-        return sqLiteDatabase.rawQuery(query, new String[]{});
-    }
-
     private Item cursorToItem(Cursor cursor){
         Item item = new Item();
         Electronics electronics = new Electronics();
