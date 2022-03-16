@@ -62,7 +62,7 @@ public class ItemGridAdapter extends BaseAdapter {
         }
 
         viewHolder.txtItemName.setText(item.getElectronics().getName());
-        viewHolder.txtItemPrice.setText(new BigDecimal(item.getUnitPrice()).toPlainString());
+        viewHolder.txtItemPrice.setText(new BigDecimal(item.getUnitPrice()).toPlainString() + " đ");
         viewHolder.imgItem.setImageResource(context.getResources().getIdentifier(item.getElectronics().getImageLink().trim(), "drawable", context.getPackageName()));
 
         return view;

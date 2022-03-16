@@ -1,4 +1,6 @@
 package com.example.mobile.model.order;
 
-public class OrderItem {
+import java.io.Serializable;
+
+public class OrderItem implements Serializable {
 }

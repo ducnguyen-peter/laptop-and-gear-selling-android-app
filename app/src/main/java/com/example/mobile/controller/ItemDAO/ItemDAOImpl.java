@@ -6,6 +6,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.mobile.model.Item.Category;
 import com.example.mobile.model.Item.Electronics;
 import com.example.mobile.model.Item.Item;
 import com.example.mobile.utils.Constant;
@@ -42,7 +43,7 @@ public class ItemDAOImpl implements ItemDAO{
     @Override
     public ArrayList<Item> searchItem(String input) {
         ArrayList<Item> searchResultItem = new ArrayList<>();
-        String query = "SELECT Item.Id, Item.UnitPrice, Item.Quantity, Item.TotalBuy, Electronics.Name, Electronics.Description, Electronics.ImageLink\n" +
+        String query = "SELECT Item.Id, Item.UnitPrice, Item.Quantity, Item.TotalBuy, Electronics.Id, Electronics.Name, Electronics.Description, Electronics.ImageLink\n" +
                 "FROM Item, Electronics\n" +
                 "WHERE ElectronicsId = Electronics.Id AND Electronics.Id IN (SELECT rowid FROM Electronics_fts WHERE Name MATCH ?)";
 
@@ -64,7 +65,7 @@ public class ItemDAOImpl implements ItemDAO{
     @Override
     public ArrayList<Item> getAllItems() {
         ArrayList<Item> allItems = new ArrayList<>();
-        String query = "SELECT Item.Id, Item.UnitPrice, Item.Quantity, Item.TotalBuy, Electronics.Name, Electronics.Description, Electronics.ImageLink\n" +
+        String query = "SELECT Item.Id, Item.UnitPrice, Item.Quantity, Item.TotalBuy, Electronics.Id, Electronics.Name, Electronics.Description, Electronics.ImageLink\n" +
                 "                FROM Item, Electronics\n" +
                 "                WHERE Item.ElectronicsId = Electronics.Id;";
         Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{});
@@ -81,19 +82,49 @@ public class ItemDAOImpl implements ItemDAO{
         return allItems;
     }
 
+    public ArrayList<Category> getItemCategory(Item item){
+        ArrayList<Category> itemCategories = new ArrayList<>();
+        String query = "SELECT DISTINCT Category.Id, Category.Name\n" +
+                "FROM Category, CategoryElectronics, Electronics\n" +
+                "WHERE Category.Id = CategoryElectronics.CategoryId \n" +
+                "AND CategoryElectronics.ElectronicsId = Electronics.Id \n" +
+                "AND Electronics.Id = 1;";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        int cursorCount = cursor.getCount();
+        if(cursorCount<=0) return null;
+        cursor.moveToFirst();
+        Category category;
+        while (!cursor.isAfterLast()){
+            category = cursorToCategory(cursor);
+            itemCategories.add(category);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return itemCategories;
+    }
+
     private Item cursorToItem(Cursor cursor){
         Item item = new Item();
         Electronics electronics = new Electronics();
+
         item.setId(cursor.getInt(0));
         item.setUnitPrice(cursor.getFloat(1));
         item.setQuantity(cursor.getInt(2));
         item.setTotalBuy(cursor.getInt(3));
 
-        electronics.setName(cursor.getString(4));
-        electronics.setDescription(cursor.getString(5));
-        electronics.setImageLink(cursor.getString(6));
+        electronics.setId(cursor.getInt(4));
+        electronics.setName(cursor.getString(5));
+        electronics.setDescription(cursor.getString(6));
+        electronics.setImageLink(cursor.getString(7));
 
         item.setElectronics(electronics);
         return item;
+    }
+
+    private Category cursorToCategory(Cursor cursor){
+        Category category = new Category();
+        category.setId(cursor.getInt(0));
+        category.setName(cursor.getString(1));
+        return category;
     }
 }

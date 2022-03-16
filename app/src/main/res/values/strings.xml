@@ -20,4 +20,13 @@
     <string name="user_profile">User profile</string>
     <string name="search_hint">Search for items, shops</string>
     <string name="item_image">Item image</string>
+    <string name="amount">Amount</string>
+    <string name="category">Category</string>
+    <string name="description">Description</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="buy_now">Buy now</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+    <string name="welcome_text">Here are some suggestions for you</string>
+    <string name="price">Price</string>
 </resources>

@@ -38,14 +38,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
         init();
         Intent intent = this.getIntent();
-        if(intent.hasExtra("NAME")){
-            String username = intent.getExtras().getString("NAME");
-            txtWelcome.setText("Welcome " + username);
-        } else{
-            String username = PreferenceUtils.getUsername(this);
-            txtWelcome.setText("Welcome " + username);
-        }
+//        if(intent.hasExtra("NAME")){
+//            String username = intent.getExtras().getString("NAME");
+//            txtWelcome.setText("Welcome " + username);
+//        } else{
+//            String username = PreferenceUtils.getUsername(this);
+//            txtWelcome.setText("Welcome " + username);
+//        }
         handleIntent(intent);
+        txtWelcome.setText(R.string.welcome_text);
     }
 
     @Override
@@ -109,6 +110,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Item item = itemList.get(i);
-
+        Intent intent = new Intent(this, ItemDetailsActivity.class);
+        intent.putExtra("ITEM", item);
+        startActivity(intent);
     }
 }

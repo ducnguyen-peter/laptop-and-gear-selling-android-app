@@ -1,4 +1,6 @@
 package com.example.mobile.model.cart;
 
-public class CartItem {
+import java.io.Serializable;
+
+public class CartItem implements Serializable {
 }

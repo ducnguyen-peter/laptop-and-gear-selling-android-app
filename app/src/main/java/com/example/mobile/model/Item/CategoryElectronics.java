@@ -1,6 +1,8 @@
 package com.example.mobile.model.Item;
 
-public class CategoryElectronics {
+import java.io.Serializable;
+
+public class CategoryElectronics implements Serializable {
     private Category category;
     private Electronics electronics;
 

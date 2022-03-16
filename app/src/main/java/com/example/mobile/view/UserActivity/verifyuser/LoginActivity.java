@@ -92,7 +92,6 @@ public class LoginActivity extends AppCompatActivity {
             mainIntent.putExtra("NAME", user.getUsername());
             emptyInputEditText();
             PreferenceUtils.saveUsername(user.getUsername(), this);
-            PreferenceUtils.savePassword(user.getPassword(), this);
 
             startActivity(mainIntent);
             this.finish();

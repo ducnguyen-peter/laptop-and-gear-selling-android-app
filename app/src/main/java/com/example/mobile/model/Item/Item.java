@@ -1,6 +1,8 @@
 package com.example.mobile.model.Item;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
     private int id;
     private float unitPrice;
     private int quantity;
