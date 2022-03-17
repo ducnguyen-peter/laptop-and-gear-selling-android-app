@@ -11,9 +11,6 @@
     <item
         android:id="@+id/logout"
         android:title="@string/log_out"
-        app:showAsAction="never"/>
-
-    <item android:id="@+id/action_user_profile"
-        android:title="@string/user_profile"
+        android:icon="@drawable/baseline_logout_white_24dp"
         app:showAsAction="never"/>
 </menu>

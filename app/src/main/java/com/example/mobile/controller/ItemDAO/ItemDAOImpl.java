@@ -65,20 +65,24 @@ public class ItemDAOImpl implements ItemDAO{
     @Override
     public ArrayList<Item> getAllItems() {
         ArrayList<Item> allItems = new ArrayList<>();
-        String query = "SELECT Item.Id, Item.UnitPrice, Item.Quantity, Item.TotalBuy, Electronics.Id, Electronics.Name, Electronics.Description, Electronics.ImageLink\n" +
-                "                FROM Item, Electronics\n" +
-                "                WHERE Item.ElectronicsId = Electronics.Id;";
-        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{});
-        int cursorCount = cursor.getCount();
-        if(cursorCount<=0) return null;
-        cursor.moveToFirst();
-        Item item;
-        while(!cursor.isAfterLast()){
-            item = cursorToItem(cursor);
-            allItems.add(item);
-            cursor.moveToNext();
+        try{
+            String query = "SELECT Item.Id, Item.UnitPrice, Item.Quantity, Item.TotalBuy, Electronics.Id, Electronics.Name, Electronics.Description, Electronics.ImageLink\n" +
+                    "                FROM Item, Electronics\n" +
+                    "                WHERE Item.ElectronicsId = Electronics.Id;";
+            Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{});
+            int cursorCount = cursor.getCount();
+            if(cursorCount<=0) return null;
+            cursor.moveToFirst();
+            Item item;
+            while(!cursor.isAfterLast()){
+                item = cursorToItem(cursor);
+                allItems.add(item);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        } catch (SQLException e){
+            e.printStackTrace();
         }
-        cursor.close();
         return allItems;
     }
 

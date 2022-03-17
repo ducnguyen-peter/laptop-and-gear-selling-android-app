@@ -2,6 +2,8 @@ package com.example.mobile.view.UserActivity.main;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.provider.SearchRecentSuggestions;
 import android.widget.SearchView;
@@ -10,7 +12,10 @@ import com.example.mobile.R;
 import com.example.mobile.controller.ItemDAO.ItemDAOImpl;
 import com.example.mobile.model.Item.Item;
 import com.example.mobile.utils.PreferenceUtils;
+import com.example.mobile.view.UserActivity.main.fragments.HomeFragment;
+import com.example.mobile.view.UserActivity.main.fragments.ViewPagerAdapter;
 import com.example.mobile.view.UserActivity.verifyuser.LoginActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -26,11 +31,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
-    private TextView txtWelcome;
-    private ArrayList<Item> itemList;
-    private GridView gridItem;
-    private ItemDAOImpl itemDAOImpl;
-    ItemGridAdapter itemGridAdapter;
+    private ViewPager2 viewPagerMain;
+    private BottomNavigationView bottomNavigation;
+    private ViewPagerAdapter viewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,15 +41,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
         init();
         Intent intent = this.getIntent();
-//        if(intent.hasExtra("NAME")){
-//            String username = intent.getExtras().getString("NAME");
-//            txtWelcome.setText("Welcome " + username);
-//        } else{
-//            String username = PreferenceUtils.getUsername(this);
-//            txtWelcome.setText("Welcome " + username);
-//        }
         handleIntent(intent);
-        txtWelcome.setText(R.string.welcome_text);
+
     }
 
     @Override
@@ -61,23 +57,56 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             //save recent query
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this, RecentQuerySuggestionProvider.AUTHORITY, RecentQuerySuggestionProvider.MODE);
             suggestions.saveRecentQuery(input, null);
-            //update the item list
-            itemList.clear();
-            itemList.addAll(itemDAOImpl.searchItem(input));
-            itemGridAdapter.notifyDataSetChanged();
+            //call search result activity
+            Intent searchResultIntent = new Intent(this, SearchResultsActivity.class);
+            searchResultIntent.putExtra("SEARCH_QUERY", input);
+            startActivity(searchResultIntent);
         }
     }
 
     private void init(){
-        txtWelcome = findViewById(R.id.txt_welcome);
-        gridItem = findViewById(R.id.grid_item);
+        setupViewPager();
+    }
 
-        itemDAOImpl = new ItemDAOImpl(this);
+    private void setupViewPager(){
+        //init view pager
+        viewPagerMain = findViewById(R.id.view_pager_main);
+        bottomNavigation = findViewById(R.id.bottom_navigation);
+        viewPagerAdapter = new ViewPagerAdapter(this);
+        viewPagerMain.setAdapter(viewPagerAdapter);
+        //bottomNavigation
+        bottomNavigation.setOnItemSelectedListener(item -> {
+            if(item.getItemId()==R.id.action_home){
+                viewPagerMain.setCurrentItem(0);
+            } else if (item.getItemId()==R.id.action_cart){
+                viewPagerMain.setCurrentItem(1);
+            } else if (item.getItemId()==R.id.action_user_profile){
+                viewPagerMain.setCurrentItem(2);
+            }
+            return true;
+        });
+        //viewPager
+        viewPagerMain.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            }
 
-        itemList = itemDAOImpl.getAllItems();
-        itemGridAdapter = new ItemGridAdapter(this, itemList);
-        gridItem.setAdapter(itemGridAdapter);
-        gridItem.setOnItemClickListener(this);
+            @Override
+            public void onPageSelected(int position) {
+                switch (position){
+                    case 0:
+                        bottomNavigation.getMenu().findItem(R.id.action_home).setChecked(true);
+                        break;
+                    case 1:
+                        bottomNavigation.getMenu().findItem(R.id.action_cart).setChecked(true);
+                        break;
+                    case 2:
+                        bottomNavigation.getMenu().findItem(R.id.action_user_profile).setChecked(true);
+                        break;
+                }
+            }
+        });
     }
 
     @Override
@@ -109,9 +138,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Item item = itemList.get(i);
-        Intent intent = new Intent(this, ItemDetailsActivity.class);
-        intent.putExtra("ITEM", item);
-        startActivity(intent);
+
     }
 }
