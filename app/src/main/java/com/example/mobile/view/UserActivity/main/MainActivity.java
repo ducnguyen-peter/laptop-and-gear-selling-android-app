@@ -2,18 +2,13 @@ package com.example.mobile.view.UserActivity.main;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.provider.SearchRecentSuggestions;
 import android.widget.SearchView;
 
 import com.example.mobile.R;
-import com.example.mobile.controller.ItemDAO.ItemDAOImpl;
-import com.example.mobile.model.Item.Item;
 import com.example.mobile.utils.PreferenceUtils;
-import com.example.mobile.view.UserActivity.main.fragments.HomeFragment;
-import com.example.mobile.view.UserActivity.main.fragments.ViewPagerAdapter;
 import com.example.mobile.view.UserActivity.verifyuser.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -25,10 +20,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.TextView;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private ViewPager2 viewPagerMain;
@@ -42,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         init();
         Intent intent = this.getIntent();
         handleIntent(intent);
-
     }
 
     @Override
@@ -74,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         bottomNavigation = findViewById(R.id.bottom_navigation);
         viewPagerAdapter = new ViewPagerAdapter(this);
         viewPagerMain.setAdapter(viewPagerAdapter);
-        //bottomNavigation
+        //when clicking an item (a tab) of the bottom navigation bar
         bottomNavigation.setOnItemSelectedListener(item -> {
             if(item.getItemId()==R.id.action_home){
                 viewPagerMain.setCurrentItem(0);
@@ -85,7 +75,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
             return true;
         });
-        //viewPager
+
+        //when swiping the view pager
         viewPagerMain.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -109,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         });
     }
 
+    //action bar menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.getMenuInflater().inflate(R.menu.actionbar_menu, menu);
@@ -122,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return true;
     }
 
+    //when an item on the bar is selected
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId()==R.id.logout){

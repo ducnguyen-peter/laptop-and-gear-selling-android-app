@@ -17,7 +17,6 @@ import com.example.mobile.R;
 import com.example.mobile.controller.ItemDAO.ItemDAOImpl;
 import com.example.mobile.model.Item.Item;
 import com.example.mobile.view.UserActivity.main.ItemDetailsActivity;
-import com.example.mobile.view.UserActivity.main.ItemGridAdapter;
 import com.example.mobile.view.UserActivity.main.MainActivity;
 
 import java.util.ArrayList;
@@ -37,6 +36,7 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //inflate and get view
         View view = inflater.inflate(R.layout.home_fragment_layout, container, false);
         txtWelcome = view.findViewById(R.id.txt_welcome);
         txtWelcome.setText(R.string.welcome_text);

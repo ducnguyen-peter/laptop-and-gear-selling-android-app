@@ -1,4 +1,4 @@
-package com.example.mobile.view.UserActivity.main.fragments;
+package com.example.mobile.view.UserActivity.main;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -9,6 +9,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.mobile.model.cart.Cart;
 import com.example.mobile.view.UserActivity.main.MainActivity;
+import com.example.mobile.view.UserActivity.main.fragments.CartFragment;
+import com.example.mobile.view.UserActivity.main.fragments.HomeFragment;
+import com.example.mobile.view.UserActivity.main.fragments.UserProfileFragment;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
     private MainActivity mainActivity;

@@ -1,4 +1,4 @@
-package com.example.mobile.view.UserActivity.main;
+package com.example.mobile.view.UserActivity.main.fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ItemGridAdapter extends BaseAdapter {
     private Context context;
@@ -62,7 +63,7 @@ public class ItemGridAdapter extends BaseAdapter {
         }
 
         viewHolder.txtItemName.setText(item.getElectronics().getName());
-        viewHolder.txtItemPrice.setText(new BigDecimal(item.getUnitPrice()).toPlainString() + " đ");
+        viewHolder.txtItemPrice.setText(String.format(Locale.ENGLISH, "%.1fđ", item.getUnitPrice()));
         viewHolder.imgItem.setImageResource(context.getResources().getIdentifier(item.getElectronics().getImageLink().trim(), "drawable", context.getPackageName()));
 
         return view;

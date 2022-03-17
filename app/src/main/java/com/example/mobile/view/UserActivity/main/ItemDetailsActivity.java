@@ -23,21 +23,27 @@ import com.example.mobile.model.Item.Item;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ItemDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView txtItemTitle;
     private ImageView imgItem;
+
     private TextView txtPrice;
     private TextView txtDescription;
     private TextView txtCategory;
     private EditText edtAmount;
+    private TextView txtAvailable;
+
     private Button btnMinus;
     private Button btnPlus;
     private Button btnAddToCart;
     private Button btnBuyNow;
     private ItemDAOImpl itemDAOImpl;
+
     private Item item;
+    private int amount = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +57,12 @@ public class ItemDetailsActivity extends AppCompatActivity implements View.OnCli
         //map the views
         txtItemTitle = findViewById(R.id.txt_item_name);
         imgItem = findViewById(R.id.img_item_detail);
+
         txtPrice = findViewById(R.id.txt_price);
         txtDescription = findViewById(R.id.txt_description);
         txtCategory = findViewById(R.id.txt_category);
         edtAmount = findViewById(R.id.edt_amount);
+        txtAvailable = findViewById(R.id.txt_available);
         btnMinus = findViewById(R.id.btn_minus);
         btnPlus = findViewById(R.id.btn_plus);
         btnAddToCart = findViewById(R.id.btn_add_to_cart);
@@ -85,11 +93,14 @@ public class ItemDetailsActivity extends AppCompatActivity implements View.OnCli
         txtCategory.setLinksClickable(true);
         txtCategory.setMovementMethod(LinkMovementMethod.getInstance());
         txtCategory.setText(ss, TextView.BufferType.SPANNABLE);
+
         //the rest of the item info
         txtItemTitle.setText(item.getElectronics().getName());
-        txtPrice.setText(new BigDecimal(item.getUnitPrice()).toPlainString() + "đ");
+        txtPrice.setText(String.format(Locale.ENGLISH, "%.1fđ", item.getUnitPrice()));
         txtDescription.setText(item.getElectronics().getDescription());
         imgItem.setImageResource(getResources().getIdentifier(item.getElectronics().getImageLink().trim(), "drawable", getPackageName()));
+        edtAmount.setText(String.format(Locale.ENGLISH,"%d", amount));
+        txtAvailable.setText(String.format(Locale.ENGLISH,"%d", item.getQuantity()));
         //set onclick for buttons
         btnMinus.setOnClickListener(this);
         btnPlus.setOnClickListener(this);
@@ -105,6 +116,20 @@ public class ItemDetailsActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View view) {
-
+        int viewId = view.getId();
+        if(viewId==R.id.btn_minus){
+            if(amount>1){
+                amount -= 1;
+                edtAmount.setText(String.format(Locale.ENGLISH,"%d", amount));
+            }
+        } else if(viewId==R.id.btn_plus){
+            if(amount<item.getQuantity()){
+                amount+=1;
+                edtAmount.setText(String.format(Locale.ENGLISH,"%d", amount));
+            }
+            else{
+                Toast.makeText(this, "You can't buy more than available", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

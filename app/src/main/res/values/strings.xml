@@ -29,4 +29,5 @@
     <string name="plus">+</string>
     <string name="welcome_text">Here are some suggestions for you</string>
     <string name="price">Price</string>
+    <string name="available">Available</string>
 </resources>

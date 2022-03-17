@@ -20,6 +20,7 @@ import com.example.mobile.R;
 import com.example.mobile.controller.ItemDAO.ItemDAOImpl;
 import com.example.mobile.model.Item.Item;
 import com.example.mobile.utils.PreferenceUtils;
+import com.example.mobile.view.UserActivity.main.fragments.ItemGridAdapter;
 import com.example.mobile.view.UserActivity.verifyuser.LoginActivity;
 
 import java.util.ArrayList;
