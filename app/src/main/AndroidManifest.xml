@@ -13,9 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mobile">
         <activity
+            android:name=".view.UserActivity.main.CheckOutActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.UserActivity.main.SearchResultsActivity"
             android:exported="false"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
