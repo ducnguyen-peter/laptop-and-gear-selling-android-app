@@ -13,6 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mobile">
         <activity
+            android:name=".view.UserActivity.main.UserProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.UserActivity.main.OrderResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.UserActivity.main.CartActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.UserActivity.main.CheckOutActivity"
             android:exported="false" />
         <activity

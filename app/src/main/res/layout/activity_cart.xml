@@ -4,17 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="view.UserActivity.main.CheckOutActivity">
-
-    <TextView
-        android:id="@+id/lbl_shipment_method"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hinh_thuc_van_chuyen"
-        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout4"
-        app:layout_constraintStart_toStartOf="@+id/lbl_payment_method"
-        app:layout_constraintTop_toTopOf="@+id/lbl_cart"
-        app:layout_constraintVertical_bias="0.785" />
+    tools:context="view.UserActivity.main.CartActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -39,21 +29,20 @@
             app:layout_constraintStart_toEndOf="@+id/cbsp1"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.466"
-            tools:srcCompat="@tools:sample/backgrounds/scenic"
-            />
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <TextView
             android:id="@+id/txt_item1"
-            android:layout_width="84dp"
-            android:layout_height="25dp"
+            android:layout_width="91dp"
+            android:layout_height="22dp"
             android:text="@string/san_pham_1"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.562"
+            app:layout_constraintHorizontal_bias="0.571"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.247" />
+            app:layout_constraintVertical_bias="0.268" />
 
         <TextView
             android:id="@+id/txt_price1"
@@ -112,10 +101,10 @@
         android:id="@+id/lbl_cart"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginBottom="712dp"
-        android:background="#9C85BD"
+        android:layout_marginBottom="712sp"
         android:gravity="center"
-        android:text="@string/thanh_toan"
+        android:background="#9C85BD"
+        android:text="@string/gio_hang"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -316,7 +305,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout4"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@color/material_dynamic_neutral_variant80"
@@ -388,52 +376,6 @@
             app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="200dp"
-        android:layout_height="24dp"
-        android:layout_marginEnd="44dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.739" />
-
-    <Spinner
-        android:id="@+id/spinner2"
-        android:layout_width="200dp"
-        android:layout_height="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/spinner"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.788" />
-
-    <TextView
-        android:id="@+id/lbl_payment_method"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hinh_thuc_thanh_toan"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/lbl_cart"
-        app:layout_constraintHorizontal_bias="0.07"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.735" />
-
-    <TextView
-        android:id="@+id/lbl_shipping_fee"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:text="@string/xx_xxx_vnd"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/spinner2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.831" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

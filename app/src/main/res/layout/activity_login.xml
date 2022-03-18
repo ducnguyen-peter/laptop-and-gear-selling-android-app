@@ -22,7 +22,7 @@
         app:layout_constraintVertical_bias="0.176" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/lbl_Success"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
@@ -31,13 +31,13 @@
         app:layout_constraintTop_toBottomOf="@+id/lbl_sign_up" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/lbl_cart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="92dp"
         android:text="@string/lbl_password"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        app:layout_constraintStart_toStartOf="@+id/lbl_Success"
+        app:layout_constraintTop_toTopOf="@+id/lbl_Success" />
 
     <EditText
         android:id="@+id/edt_username"
@@ -49,9 +49,9 @@
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:textColorHint="#757575"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        app:layout_constraintBottom_toBottomOf="@+id/lbl_Success"
+        app:layout_constraintStart_toStartOf="@+id/lbl_Success"
+        app:layout_constraintTop_toTopOf="@+id/lbl_Success" />
 
     <EditText
         android:id="@+id/edt_password"
@@ -63,9 +63,9 @@
         android:inputType="textPassword"
         android:minHeight="48dp"
         android:textColorHint="#757575"
-        app:layout_constraintBottom_toBottomOf="@+id/textView2"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toTopOf="@+id/textView2" />
+        app:layout_constraintBottom_toBottomOf="@+id/lbl_cart"
+        app:layout_constraintStart_toStartOf="@+id/lbl_cart"
+        app:layout_constraintTop_toTopOf="@+id/lbl_cart" />
 
     <Button
         android:id="@+id/btn_signin"
@@ -74,7 +74,7 @@
         android:layout_marginTop="59dp"
         android:text="@string/sign_in"
         app:layout_constraintEnd_toEndOf="@+id/edt_password"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="@+id/lbl_cart"
         app:layout_constraintTop_toBottomOf="@+id/edt_password" />
 
     <Button

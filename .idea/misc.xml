@@ -20,7 +20,20 @@
         <entry key="..\:/Documents/DAI HOC/nam4/Ki2_nam4/Phat trien ung dung di dong/Project Code/mobile/app/src/main/res/menu/logout.xml" value="0.20416666666666666" />
         <entry key="..\:/Documents/DAI HOC/nam4/Ki2_nam4/Phat trien ung dung di dong/Project Code/mobile/app/src/main/res/menu/logout_menu.xml" value="0.33" />
         <entry key="..\:/Documents/DAI HOC/nam4/Ki2_nam4/Phat trien ung dung di dong/Project Code/mobile/app/src/main/res/xml/searchable.xml" value="0.192481884057971" />
-        <entry key="..\:/code/mobile/app/src/main/res/layout/activity_check_out.xml" value="0.15534420289855072" />
+        <entry key="..\:/code/mobile/app/src/main/res/layout/activity_cart.xml" value="0.25" />
+        <entry key="..\:/code/mobile/app/src/main/res/layout/activity_check_out.xml" value="0.25" />
+        <entry key="..\:/code/mobile/app/src/main/res/layout/activity_confirm_new_pass.xml" value="0.17074275362318841" />
+        <entry key="..\:/code/mobile/app/src/main/res/layout/activity_forgot_password_identifier.xml" value="0.17074275362318841" />
+        <entry key="..\:/code/mobile/app/src/main/res/layout/activity_item_details.xml" value="0.33" />
+        <entry key="..\:/code/mobile/app/src/main/res/layout/activity_login.xml" value="0.17074275362318841" />
+        <entry key="..\:/code/mobile/app/src/main/res/layout/activity_main.xml" value="0.17074275362318841" />
+        <entry key="..\:/code/mobile/app/src/main/res/layout/activity_order_result.xml" value="0.17074275362318841" />
+        <entry key="..\:/code/mobile/app/src/main/res/layout/activity_register.xml" value="0.17074275362318841" />
+        <entry key="..\:/code/mobile/app/src/main/res/layout/activity_search_results.xml" value="0.2033514492753623" />
+        <entry key="..\:/code/mobile/app/src/main/res/layout/activity_user_profile.xml" value="0.25" />
+        <entry key="..\:/code/mobile/app/src/main/res/layout/grid_item_layout.xml" value="0.17074275362318841" />
+        <entry key="..\:/code/mobile/app/src/main/res/layout/home_fragment_layout.xml" value="0.17074275362318841" />
+        <entry key="..\:/code/mobile/app/src/main/res/layout/user_profile_fragment_layout.xml" value="0.17074275362318841" />
       </map>
     </option>
   </component>

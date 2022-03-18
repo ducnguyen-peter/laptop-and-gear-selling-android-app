@@ -22,7 +22,7 @@
         app:layout_constraintVertical_bias="0.176" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/lbl_Success"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
@@ -31,13 +31,13 @@
         app:layout_constraintTop_toBottomOf="@+id/lbl_sign_up" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/lbl_cart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="148dp"
         android:text="@string/lbl_password"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        app:layout_constraintStart_toStartOf="@+id/lbl_Success"
+        app:layout_constraintTop_toTopOf="@+id/lbl_Success" />
 
     <TextView
         android:id="@+id/lbl_password"
@@ -45,8 +45,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="76dp"
         android:text="@string/lbl_password"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toTopOf="@+id/textView2" />
+        app:layout_constraintStart_toStartOf="@+id/lbl_cart"
+        app:layout_constraintTop_toTopOf="@+id/lbl_cart" />
 
     <EditText
         android:id="@+id/edt_username_signup"
@@ -58,9 +58,9 @@
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:textColorHint="#757575"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView"
+        app:layout_constraintBottom_toBottomOf="@+id/lbl_Success"
+        app:layout_constraintStart_toStartOf="@+id/lbl_Success"
+        app:layout_constraintTop_toTopOf="@+id/lbl_Success"
         app:layout_constraintVertical_bias="0.517" />
 
     <EditText
@@ -88,9 +88,9 @@
         android:inputType="textPassword"
         android:minHeight="48dp"
         android:textColorHint="#757575"
-        app:layout_constraintBottom_toBottomOf="@+id/textView2"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toTopOf="@+id/textView2" />
+        app:layout_constraintBottom_toBottomOf="@+id/lbl_cart"
+        app:layout_constraintStart_toStartOf="@+id/lbl_cart"
+        app:layout_constraintTop_toTopOf="@+id/lbl_cart" />
 
     <EditText
         android:id="@+id/edt_passrepeat_signup"
@@ -124,8 +124,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
         android:text="@string/email_or_tel"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toStartOf="@+id/lbl_Success"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_Success" />
 
     <Button
         android:id="@+id/btn_signin_link"
