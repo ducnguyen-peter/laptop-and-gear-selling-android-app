@@ -62,6 +62,19 @@ public class Constant {
 
     public final String[] allCategoryElectronicsColumns = {COLUMN_CATEGORY_ELECTRONICS_CATEGORY_ID, COLUMN_CATEGORY_ELECTRONICS_ELECTRONICS_ID};
 
+    //name and columns for table Cart
+    public static final String TABLE_CART = "Cart";
+    public static final String COLUMN_CART_ID = "Id";
+    public static final String COLUMN_CART_DISCOUNT = "Discount";
+    public static final String COLUMN_CART_USER_ID = "UserId";
+
+    //name and columns for table CartItem
+    public static final String TABLE_CART_ITEM = "CartItem";
+    public static final String COLUMN_CART_ITEM_AMOUNT = "Amount";
+    public static final String COLUMN_CART_ITEM_DISCOUNT = "Discount";
+    public static final String COLUMN_CART_ITEM_ITEM_ID = "ItemId";
+    public static final String COLUMN_CART_ITEM_CART_ID = "CartId";
+    public final String[] allCartItemColumns = {COLUMN_CART_ITEM_AMOUNT, COLUMN_CART_ITEM_DISCOUNT, COLUMN_CART_ITEM_ITEM_ID, COLUMN_CART_ITEM_CART_ID};
     //
     //key for SharedPreferences
     public static String KEY_USERNAME = "username";

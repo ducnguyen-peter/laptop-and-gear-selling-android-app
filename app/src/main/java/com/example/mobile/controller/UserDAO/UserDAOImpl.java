@@ -138,6 +138,32 @@ public class UserDAOImpl implements UserDAO{
         return user;
     }
 
+    public User getUser(String input){
+        String selection;
+        if(Patterns.EMAIL_ADDRESS.matcher(input).matches() && input.contains("@")){
+            selection = Constant.COLUMN_USER_EMAIL + " = ?";
+        } else if(PhoneNumberUtils.isGlobalPhoneNumber(input)){
+            selection = Constant.COLUMN_USER_TEL + " = ?";
+        } else{
+            selection = Constant.COLUMN_USER_NAME + " = ?";
+        }
+        String[] selectionArgs = {
+                input
+        };
+        Cursor cursor = sqLiteDatabase.query(Constant.TABLE_USER, Constant.allUserColumns, selection, selectionArgs, null, null, null);
+        int cursorCount = cursor.getCount();
+        if(cursorCount<=0) return null;
+        cursor.moveToFirst();
+        User user = new User();
+        while(!cursor.isAfterLast()){
+            user = cursorToUser(cursor);
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        return user;
+    }
+
     @Override
     public boolean checkExistedUser(EditText txtInput){
         String input = txtInput.getText().toString().trim();

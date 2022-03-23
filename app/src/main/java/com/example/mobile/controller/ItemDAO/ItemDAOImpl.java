@@ -12,6 +12,7 @@ import com.example.mobile.model.Item.Item;
 import com.example.mobile.utils.Constant;
 import com.example.mobile.utils.DBHelper;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ItemDAOImpl implements ItemDAO{
@@ -84,6 +85,27 @@ public class ItemDAOImpl implements ItemDAO{
             e.printStackTrace();
         }
         return allItems;
+    }
+
+    public Item getItemById(int id){
+        Item item = new Item();
+        try{
+            String query = "SELECT Item.Id, Item.UnitPrice, Item.Quantity, Item.TotalBuy, Electronics.Id, Electronics.Name, Electronics.Description, Electronics.ImageLink\n" +
+                    "                FROM Item, Electronics\n" +
+                    "                WHERE Item.ElectronicsId = Electronics.Id AND Item.Id = ?;";
+            Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{Integer.toString(id)});
+            int cursorCount = cursor.getCount();
+            if(cursorCount<=0) return null;
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()){
+                item = cursorToItem(cursor);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return item;
     }
 
     public ArrayList<Category> getItemCategory(Item item){

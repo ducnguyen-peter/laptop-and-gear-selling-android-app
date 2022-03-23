@@ -22,7 +22,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
         super(fragmentActivity);
         mainActivity = (MainActivity) fragmentActivity;
         homeFragment = new HomeFragment(mainActivity);
-        cartFragment = new CartFragment();
+        cartFragment = new CartFragment(mainActivity);
         userProfileFragment = new UserProfileFragment();
     }
 

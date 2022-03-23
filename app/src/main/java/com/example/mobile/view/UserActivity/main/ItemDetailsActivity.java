@@ -33,11 +33,8 @@ public class ItemDetailsActivity extends AppCompatActivity implements View.OnCli
     private TextView txtPrice;
     private TextView txtDescription;
     private TextView txtCategory;
-    private EditText edtAmount;
     private TextView txtAvailable;
 
-    private Button btnMinus;
-    private Button btnPlus;
     private Button btnAddToCart;
     private Button btnBuyNow;
     private ItemDAOImpl itemDAOImpl;
@@ -61,10 +58,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements View.OnCli
         txtPrice = findViewById(R.id.txt_price);
         txtDescription = findViewById(R.id.txt_description);
         txtCategory = findViewById(R.id.txt_category);
-        edtAmount = findViewById(R.id.edt_amount);
         txtAvailable = findViewById(R.id.txt_available);
-        btnMinus = findViewById(R.id.btn_minus);
-        btnPlus = findViewById(R.id.btn_plus);
         btnAddToCart = findViewById(R.id.btn_add_to_cart);
         btnBuyNow = findViewById(R.id.btn_buy);
 
@@ -99,11 +93,8 @@ public class ItemDetailsActivity extends AppCompatActivity implements View.OnCli
         txtPrice.setText(String.format(Locale.ENGLISH, "%.1fđ", item.getUnitPrice()));
         txtDescription.setText(item.getElectronics().getDescription());
         imgItem.setImageResource(getResources().getIdentifier(item.getElectronics().getImageLink().trim(), "drawable", getPackageName()));
-        edtAmount.setText(String.format(Locale.ENGLISH,"%d", amount));
         txtAvailable.setText(String.format(Locale.ENGLISH,"%d", item.getQuantity()));
         //set onclick for buttons
-        btnMinus.setOnClickListener(this);
-        btnPlus.setOnClickListener(this);
         btnAddToCart.setOnClickListener(this);
         btnBuyNow.setOnClickListener(this);
     }
@@ -117,19 +108,6 @@ public class ItemDetailsActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View view) {
         int viewId = view.getId();
-        if(viewId==R.id.btn_minus){
-            if(amount>1){
-                amount -= 1;
-                edtAmount.setText(String.format(Locale.ENGLISH,"%d", amount));
-            }
-        } else if(viewId==R.id.btn_plus){
-            if(amount<item.getQuantity()){
-                amount+=1;
-                edtAmount.setText(String.format(Locale.ENGLISH,"%d", amount));
-            }
-            else{
-                Toast.makeText(this, "You can't buy more than available", Toast.LENGTH_SHORT).show();
-            }
-        }
+
     }
 }
