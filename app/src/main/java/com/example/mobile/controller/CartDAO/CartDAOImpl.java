@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
 import com.example.mobile.model.Item.Item;
@@ -26,33 +27,48 @@ public class CartDAOImpl implements CartDAO{
         dbHelper = new DBHelper(context);
         try{
             open();
-        } catch (SQLException e){
+        } catch (SQLiteException e){
             Log.e("ItemDAOImpl", "SQLException on opening database" + e.getMessage());
             e.printStackTrace();
         }
     }
     private void open(){
         sqLiteDatabase = dbHelper.getWritableDatabase();
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Electronics_fts");
-        sqLiteDatabase.execSQL("CREATE VIRTUAL TABLE Electronics_fts USING fts4(Name)");
-        sqLiteDatabase.execSQL("INSERT INTO Electronics_fts (Name) SELECT Name FROM Electronics");
     }
 
     private void close(){
         dbHelper.close();
     }
 
-    public Cart createCart(Cart cart){
-        ContentValues values = new ContentValues();
-        values.put(Constant.COLUMN_CART_DISCOUNT, cart.getDiscount());
-        values.put(Constant.COLUMN_CART_USER_ID, cart.getUser().getId());
-        long id = sqLiteDatabase.insertOrThrow(Constant.TABLE_CART,null, values);
-        cart.setId((int)id);
+    public Cart createCart(User user){
+        Cart cart = new Cart(user);
+        try {
+            ContentValues values = new ContentValues();
+            values.put(Constant.COLUMN_CART_DISCOUNT, 0);
+            values.put(Constant.COLUMN_CART_USER_ID, user.getId());
+            long id = sqLiteDatabase.insertOrThrow(Constant.TABLE_CART, null, values);
+//            System.out.println(id);
+            cart.setId((int) id);
+        }catch (SQLiteException e){
+            e.printStackTrace();
+        }
+        System.out.println("New cart Id: " + cart.getId());
         return cart;
     }
 
-    public Cart checkCartExisted(User user){
-
+    public boolean isCartExisted(User user){
+        int cursorCount = 0;
+        try{
+            String queryCart = "SELECT Cart.Id, Cart.Discount, Cart.UserId FROM Cart, User WHERE Cart.UserId = User.Id AND User.Id = ?;";
+            Cursor cursor = sqLiteDatabase.rawQuery(queryCart, new String[]{Integer.toString(user.getId())});
+            System.out.println("User Id: " + user.getId());
+            cursorCount = cursor.getCount();
+            System.out.println("Cursor count: " + cursorCount);
+            cursor.close();
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        return cursorCount > 0;
     }
 
     public Cart getCartOfUser(User user){
@@ -94,18 +110,18 @@ public class CartDAOImpl implements CartDAO{
 
     private Cart cursorToCart(Cursor cursor){
         Cart cart = new Cart();
-        cart.setId(cursor.getInt(cursor.getColumnIndexOrThrow("Cart.Id")));
-        cart.setDiscount(cursor.getFloat(cursor.getColumnIndexOrThrow("Cart.Discount")));
+        cart.setId(cursor.getInt(cursor.getColumnIndexOrThrow("Id")));
+        cart.setDiscount(cursor.getFloat(cursor.getColumnIndexOrThrow("Discount")));
         return cart;
     }
 
     private CartItem cursorToCartItem(Cursor cursor){
         CartItem cartItem = new CartItem();
-        cartItem.setAmount(cursor.getInt(cursor.getColumnIndexOrThrow("CartItem.Amount")));
-        cartItem.setDiscount(cursor.getFloat(cursor.getColumnIndexOrThrow("CartItem.Discount")));
+        cartItem.setAmount(cursor.getInt(cursor.getColumnIndexOrThrow("Amount")));
+        cartItem.setDiscount(cursor.getFloat(cursor.getColumnIndexOrThrow("Discount")));
 
         Item item = new Item();
-        item.setId(cursor.getInt(cursor.getColumnIndexOrThrow("CartItem.ItemId")));
+        item.setId(cursor.getInt(cursor.getColumnIndexOrThrow("ItemId")));
 
         cartItem.setItem(item);
 

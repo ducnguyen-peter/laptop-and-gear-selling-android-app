@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobile.R;
+import com.example.mobile.controller.CartDAO.CartDAOImpl;
 import com.example.mobile.utils.InputValidation;
 import com.example.mobile.controller.UserDAO.UserDAOImpl;
 import com.example.mobile.model.user.User;
@@ -22,7 +23,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private Button btnLogin;
 
     private InputValidation inputValidation;
-    private UserDAOImpl dbHelper;
+    private UserDAOImpl userDAOImpl;
+    private CartDAOImpl cartDAOImpl;
 
     private User user;
 
@@ -42,8 +44,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         btnLogin = findViewById(R.id.btn_signin_link);
         btnSignup.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
+
         inputValidation = new InputValidation(this);
-        dbHelper = new UserDAOImpl(this);
+        userDAOImpl = new UserDAOImpl(this);
+        cartDAOImpl = new CartDAOImpl(this);
         user = new User();
     }
 
@@ -83,14 +87,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
             user.setPassword(edtPassword.getText().toString().trim());
             user.setRole("user");
-            dbHelper.addUser(user);
+            userDAOImpl.addUser(user);
+            if(!cartDAOImpl.isCartExisted(user)){
+                cartDAOImpl.createCart(user);
+            }
             Toast.makeText(this, "Registered", Toast.LENGTH_SHORT).show();
             emptyInputEditText();
         }
     }
 
     public boolean checkExisted(EditText txtUsername, EditText txtEmailOrTel){
-        if(dbHelper.checkExistedUser(txtEmailOrTel)||dbHelper.checkExistedUser(txtUsername))
+        if(userDAOImpl.checkExistedUser(txtEmailOrTel)|| userDAOImpl.checkExistedUser(txtUsername))
             return true;
         return false;
     }

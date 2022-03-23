@@ -68,7 +68,7 @@
         android:id="@+id/lbl_shipping_fee"
         android:layout_width="wrap_content"
         android:layout_height="24dp"
-        android:text="@string/xx_xxx_vnd"
+        android:text="Shipping fee"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

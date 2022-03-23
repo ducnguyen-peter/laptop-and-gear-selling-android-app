@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobile.R;
+import com.example.mobile.controller.CartDAO.CartDAOImpl;
 import com.example.mobile.utils.InputValidation;
 import com.example.mobile.controller.UserDAO.UserDAOImpl;
 import com.example.mobile.model.user.User;
@@ -20,6 +21,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText edtUsername, edtPassword;
     Button btnSignIn, btnSignUp, btnForgotPass;
     UserDAOImpl userDAOImpl;
+    private CartDAOImpl cartDAOImpl;
     InputValidation inputValidation;
     public static final String DATABASE_NAME="mobile.db";
 
@@ -41,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.edt_password);
 
         userDAOImpl = new UserDAOImpl(this);
+        cartDAOImpl = new CartDAOImpl(this);
         inputValidation = new InputValidation(this);
 
         if(PreferenceUtils.getUsername(this)!=null){
@@ -92,7 +95,6 @@ public class LoginActivity extends AppCompatActivity {
             mainIntent.putExtra("NAME", user.getUsername());
             emptyInputEditText();
             PreferenceUtils.saveUsername(user.getUsername(), this);
-
             startActivity(mainIntent);
             this.finish();
         }

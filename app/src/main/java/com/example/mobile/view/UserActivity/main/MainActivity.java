@@ -8,6 +8,9 @@ import android.provider.SearchRecentSuggestions;
 import android.widget.SearchView;
 
 import com.example.mobile.R;
+import com.example.mobile.controller.CartDAO.CartDAOImpl;
+import com.example.mobile.controller.UserDAO.UserDAOImpl;
+import com.example.mobile.model.user.User;
 import com.example.mobile.utils.PreferenceUtils;
 import com.example.mobile.view.UserActivity.verifyuser.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -26,10 +29,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private BottomNavigationView bottomNavigation;
     private ViewPagerAdapter viewPagerAdapter;
 
+    private UserDAOImpl userDAOImpl;
+    private CartDAOImpl cartDAOImpl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        userDAOImpl = new UserDAOImpl(this);
+        cartDAOImpl = new CartDAOImpl(this);
+        User user = userDAOImpl.getUser(PreferenceUtils.getUsername(this));
+        if(!cartDAOImpl.isCartExisted(user)){
+            cartDAOImpl.createCart(user);
+        }
         init();
         Intent intent = this.getIntent();
         handleIntent(intent);
