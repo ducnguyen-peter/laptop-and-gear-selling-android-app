@@ -10,6 +10,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,9 +48,27 @@ public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapte
         holder.imgBtnItemCart.setImageResource(context.getResources().getIdentifier(item.getElectronics().getImageLink().trim(), "drawable", context.getPackageName()));
         holder.txtItemCartName.setText(item.getElectronics().getName());
         holder.txtItemCartPrice.setText(String.format(Locale.ENGLISH, "%.1fđ", item.getUnitPrice()));
-//        holder.btnMinus.setOnClickListener((View.OnClickListener) context);
-//        holder.btnPlus.setOnClickListener((View.OnClickListener) context);
-        holder.edtAmount.setText(String.format(Locale.ENGLISH, "%d", 1));
+        holder.btnMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(holder.amount>1) {
+                    holder.amount-=1;
+                    holder.edtAmount.setText(String.format(Locale.ENGLISH, "%d", holder.amount));
+                }
+            }
+        });
+        holder.btnPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(holder.amount<=item.getQuantity()) {
+                    holder.amount+=1;
+                    holder.edtAmount.setText(String.format(Locale.ENGLISH, "%d", holder.amount));
+                } else{
+                    Toast.makeText(context, "You can't buy more than available", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        holder.edtAmount.setText(String.format(Locale.ENGLISH, "%d", holder.amount));
         holder.txtTotalItemCost.setText(String.format(Locale.ENGLISH, "%.1fđ", item.getUnitPrice()));
     }
 
@@ -67,6 +86,7 @@ public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapte
         public Button btnPlus;
         public EditText edtAmount;
         public TextView txtTotalItemCost;
+        public int amount;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -78,6 +98,7 @@ public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapte
             btnPlus = itemView.findViewById(R.id.btn_plus);
             edtAmount = itemView.findViewById(R.id.edt_amount);
             txtTotalItemCost = itemView.findViewById(R.id.txt_total_itemcart);
+            amount = 1;
         }
     }
 }
