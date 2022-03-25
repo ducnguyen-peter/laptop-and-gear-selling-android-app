@@ -10,8 +10,12 @@ import android.widget.SearchView;
 import com.example.mobile.R;
 import com.example.mobile.controller.CartDAO.CartDAOImpl;
 import com.example.mobile.controller.UserDAO.UserDAOImpl;
+import com.example.mobile.model.cart.Cart;
 import com.example.mobile.model.user.User;
 import com.example.mobile.utils.PreferenceUtils;
+import com.example.mobile.view.UserActivity.main.fragments.CartFragment;
+import com.example.mobile.view.UserActivity.main.fragments.HomeFragment;
+import com.example.mobile.view.UserActivity.main.fragments.UserProfileFragment;
 import com.example.mobile.view.UserActivity.verifyuser.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -29,6 +33,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private BottomNavigationView bottomNavigation;
     private ViewPagerAdapter viewPagerAdapter;
 
+    private HomeFragment homeFragment;
+    private CartFragment cartFragment;
+    private UserProfileFragment userProfileFragment;
+
     private UserDAOImpl userDAOImpl;
     private CartDAOImpl cartDAOImpl;
 
@@ -40,7 +48,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         cartDAOImpl = new CartDAOImpl(this);
         User user = userDAOImpl.getUser(PreferenceUtils.getUsername(this));
         if(!cartDAOImpl.isCartExisted(user)){
-            cartDAOImpl.createCart(user);
+            Cart cart = cartDAOImpl.createCart(user);
+            PreferenceUtils.saveCartId(cart.getId(), this);
+        }else{
+            PreferenceUtils.saveCartId(cartDAOImpl.getCartOfUser(user).getId(), this);
         }
         init();
         Intent intent = this.getIntent();
@@ -74,7 +85,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //init view pager
         viewPagerMain = findViewById(R.id.view_pager_main);
         bottomNavigation = findViewById(R.id.bottom_navigation);
-        viewPagerAdapter = new ViewPagerAdapter(this);
+        homeFragment = new HomeFragment(this);
+        cartFragment = new CartFragment(this);
+        userProfileFragment = new UserProfileFragment();
+
+        homeFragment.setISendData(cartFragment.getISendData());
+
+        viewPagerAdapter = new ViewPagerAdapter(this, homeFragment, cartFragment, userProfileFragment);
         viewPagerMain.setAdapter(viewPagerAdapter);
         //when clicking an item (a tab) of the bottom navigation bar
         bottomNavigation.setOnItemSelectedListener(item -> {

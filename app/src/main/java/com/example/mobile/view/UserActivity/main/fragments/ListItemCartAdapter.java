@@ -43,12 +43,12 @@ public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CartItem cartItem = cartItemList.get(position);
         Item item = cartItem.getItem();
-        holder.cbItemCart.setOnCheckedChangeListener((CompoundButton.OnCheckedChangeListener) context);
+//        holder.cbItemCart.setOnCheckedChangeListener((CompoundButton.OnCheckedChangeListener) context);
         holder.imgBtnItemCart.setImageResource(context.getResources().getIdentifier(item.getElectronics().getImageLink().trim(), "drawable", context.getPackageName()));
         holder.txtItemCartName.setText(item.getElectronics().getName());
         holder.txtItemCartPrice.setText(String.format(Locale.ENGLISH, "%.1fđ", item.getUnitPrice()));
-        holder.btnMinus.setOnClickListener((View.OnClickListener) context);
-        holder.btnPlus.setOnClickListener((View.OnClickListener) context);
+//        holder.btnMinus.setOnClickListener((View.OnClickListener) context);
+//        holder.btnPlus.setOnClickListener((View.OnClickListener) context);
         holder.edtAmount.setText(String.format(Locale.ENGLISH, "%d", 1));
         holder.txtTotalItemCost.setText(String.format(Locale.ENGLISH, "%.1fđ", item.getUnitPrice()));
     }

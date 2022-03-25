@@ -18,12 +18,12 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     private HomeFragment homeFragment;
     private CartFragment cartFragment;
     private UserProfileFragment userProfileFragment;
-    public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
+    public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity, HomeFragment homeFragment, CartFragment cartFragment, UserProfileFragment userProfileFragment) {
         super(fragmentActivity);
         mainActivity = (MainActivity) fragmentActivity;
-        homeFragment = new HomeFragment(mainActivity);
-        cartFragment = new CartFragment(mainActivity);
-        userProfileFragment = new UserProfileFragment();
+        this.homeFragment = homeFragment;
+        this.cartFragment = cartFragment;
+        this.userProfileFragment = userProfileFragment;
     }
 
     @NonNull

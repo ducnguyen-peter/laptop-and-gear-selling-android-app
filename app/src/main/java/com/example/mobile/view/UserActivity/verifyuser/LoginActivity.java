@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobile.R;
 import com.example.mobile.controller.CartDAO.CartDAOImpl;
+import com.example.mobile.model.cart.Cart;
 import com.example.mobile.utils.InputValidation;
 import com.example.mobile.controller.UserDAO.UserDAOImpl;
 import com.example.mobile.model.user.User;
@@ -90,11 +91,15 @@ public class LoginActivity extends AppCompatActivity {
     public void login(){
         if(userDAOImpl.checkLogin(edtUsername, edtPassword)){
             User user = userDAOImpl.getUser(edtUsername);
+
             System.out.println("User name: "+user.getUsername());
+
             Intent mainIntent = new Intent(this, MainActivity.class);
             mainIntent.putExtra("NAME", user.getUsername());
+
             emptyInputEditText();
             PreferenceUtils.saveUsername(user.getUsername(), this);
+
             startActivity(mainIntent);
             this.finish();
         }

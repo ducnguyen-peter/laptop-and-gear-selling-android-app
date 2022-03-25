@@ -3,6 +3,7 @@ package com.example.mobile.view.UserActivity.main;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -17,9 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mobile.R;
+import com.example.mobile.controller.CartDAO.CartDAOImpl;
 import com.example.mobile.controller.ItemDAO.ItemDAOImpl;
+import com.example.mobile.controller.UserDAO.UserDAOImpl;
 import com.example.mobile.model.Item.Category;
 import com.example.mobile.model.Item.Item;
+import com.example.mobile.utils.PreferenceUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -37,7 +41,9 @@ public class ItemDetailsActivity extends AppCompatActivity implements View.OnCli
 
     private Button btnAddToCart;
     private Button btnBuyNow;
+    private CartDAOImpl cartDAOImpl;
     private ItemDAOImpl itemDAOImpl;
+    private UserDAOImpl userDAOImpl;
 
     private Item item;
     private int amount = 1;
@@ -64,6 +70,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements View.OnCli
 
         //init DAO class
         itemDAOImpl = new ItemDAOImpl(this);
+        cartDAOImpl = new CartDAOImpl(this);
 
         //get categories of current item and set categories to clickable
         ArrayList<Category> categories = itemDAOImpl.getItemCategory(item);
@@ -75,6 +82,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements View.OnCli
         for(Category c : categories){
             String cName = c.getName();
             int index = categoriesName.indexOf(cName);
+            //find items by category
             ClickableSpan categoryClick = new ClickableSpan() {
                 @Override
                 public void onClick(@NonNull View view) {
@@ -83,7 +91,6 @@ public class ItemDetailsActivity extends AppCompatActivity implements View.OnCli
             };
             ss.setSpan(categoryClick, index, cName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-
         txtCategory.setLinksClickable(true);
         txtCategory.setMovementMethod(LinkMovementMethod.getInstance());
         txtCategory.setText(ss, TextView.BufferType.SPANNABLE);
@@ -94,6 +101,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements View.OnCli
         txtDescription.setText(item.getElectronics().getDescription());
         imgItem.setImageResource(getResources().getIdentifier(item.getElectronics().getImageLink().trim(), "drawable", getPackageName()));
         txtAvailable.setText(String.format(Locale.ENGLISH,"%d", item.getQuantity()));
+
         //set onclick for buttons
         btnAddToCart.setOnClickListener(this);
         btnBuyNow.setOnClickListener(this);
@@ -108,6 +116,14 @@ public class ItemDetailsActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View view) {
         int viewId = view.getId();
-
+        if (viewId == R.id.btn_add_to_cart){
+            int cartId = PreferenceUtils.getCartId(this);
+            if(cartDAOImpl.addCartItem(item, cartId, amount, 0)){
+                setResult(Activity.RESULT_OK);
+                Toast.makeText(this, "Added " + item.getElectronics().getName() + " to cart successfully", Toast.LENGTH_SHORT).show();
+            } else{
+                setResult(Activity.RESULT_CANCELED);
+            }
+        }
     }
 }

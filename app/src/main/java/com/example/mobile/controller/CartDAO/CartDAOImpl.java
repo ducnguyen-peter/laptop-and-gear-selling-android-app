@@ -73,8 +73,8 @@ public class CartDAOImpl implements CartDAO{
 
     public Cart getCartOfUser(User user){
         //get id, discount
-        String queryCart = "SELECT Cart.Id, Cart.Discount, Cart.UserId FROM Cart, User WHERE Cart.UserId = User.Id;";
-        Cursor cursor = sqLiteDatabase.rawQuery(queryCart, new String[]{});
+        String queryCart = "SELECT Cart.Id, Cart.Discount, Cart.UserId FROM Cart, User WHERE Cart.UserId = User.Id AND User.Id = ?;";
+        Cursor cursor = sqLiteDatabase.rawQuery(queryCart, new String[]{Integer.toString(user.getId())});
         int cursorCount = cursor.getCount();
         if(cursorCount<=0) return null;
         cursor.moveToFirst();
@@ -106,7 +106,15 @@ public class CartDAOImpl implements CartDAO{
         return cart;
     }
 
-
+    public boolean addCartItem(Item item, int cartId, int amount, int discount){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Constant.COLUMN_CART_ITEM_AMOUNT, amount);
+        contentValues.put(Constant.COLUMN_CART_ITEM_DISCOUNT, discount);
+        contentValues.put(Constant.COLUMN_CART_ITEM_CART_ID, cartId);
+        contentValues.put(Constant.COLUMN_CART_ITEM_ITEM_ID, item.getId());
+        long newRowId = sqLiteDatabase.insertOrThrow(Constant.TABLE_CART_ITEM, null, contentValues);
+        return newRowId!=-1;
+    }
 
     private Cart cursorToCart(Cursor cursor){
         Cart cart = new Cart();

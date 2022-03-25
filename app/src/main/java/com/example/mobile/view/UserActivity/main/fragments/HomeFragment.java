@@ -1,7 +1,11 @@
 package com.example.mobile.view.UserActivity.main.fragments;
 
+import static android.content.ContentValues.TAG;
+
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +13,10 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -28,9 +36,27 @@ public class HomeFragment extends Fragment {
     private ItemGridAdapter itemGridAdapter;
     private ArrayList<Item> itemList;
     private MainActivity mainActivity;
+    private Item item;
+
+    ISendData iSendData;
+
+    ActivityResultLauncher<Intent> activityLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if(result.getResultCode()== Activity.RESULT_OK) iSendData.updateCartData();
+                    Log.d(TAG, "onActivityResult: Failed to update cart");
+                }
+            }
+    );
 
     public HomeFragment(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
+    }
+
+    public void setISendData(ISendData iSendData) {
+        this.iSendData = iSendData;
     }
 
     @Nullable
@@ -49,10 +75,10 @@ public class HomeFragment extends Fragment {
         gridItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Item item = itemList.get(i);
+                item = itemList.get(i);
                 Intent intent = new Intent(mainActivity, ItemDetailsActivity.class);
                 intent.putExtra("ITEM", item);
-                startActivity(intent);
+                activityLauncher.launch(intent);
             }
         });
         return view;

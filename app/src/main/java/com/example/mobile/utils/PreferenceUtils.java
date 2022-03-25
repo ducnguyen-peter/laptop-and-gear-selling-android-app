@@ -55,4 +55,17 @@ public class PreferenceUtils {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getString(Constant.KEY_PASSWORD, null);
     }
+
+    public static boolean saveCartId(int cartId, Context context){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor prefsEditor = preferences.edit();
+        prefsEditor.putInt(Constant.KEY_CART_ID, cartId);
+        prefsEditor.apply();
+        return true;
+    }
+
+    public static int getCartId(Context context){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return  sharedPreferences.getInt(Constant.KEY_CART_ID, 0);
+    }
 }

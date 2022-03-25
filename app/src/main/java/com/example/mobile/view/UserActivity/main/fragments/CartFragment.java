@@ -1,6 +1,9 @@
 package com.example.mobile.view.UserActivity.main.fragments;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +29,7 @@ import com.example.mobile.view.UserActivity.main.MainActivity;
 
 import java.util.ArrayList;
 
-public class CartFragment extends Fragment {
+public class CartFragment extends Fragment implements ISendData{
     private RecyclerView rclCartItems;
     private CheckBox cbAllCartItem;
     private TextView txtTotalCartCost;
@@ -37,11 +40,17 @@ public class CartFragment extends Fragment {
     private UserDAOImpl userDAOImpl;
     private ListItemCartAdapter listItemCartAdapter;
     private Cart cart;
+    private ArrayList<CartItem> cartItemsList;
 
     private MainActivity mainActivity;
+    private ISendData iSendData = this;
 
     public CartFragment(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
+    }
+
+    public ISendData getISendData() {
+        return iSendData;
     }
 
     @Nullable
@@ -58,15 +67,29 @@ public class CartFragment extends Fragment {
         userDAOImpl = new UserDAOImpl(mainActivity);
 
         cart = cartDAOImpl.getCartOfUser(userDAOImpl.getUser(PreferenceUtils.getUsername(mainActivity)));
-        for(CartItem cartItem : cart.getCartItems()){
+        cartItemsList = cart.getCartItems();
+        for(CartItem cartItem : cartItemsList){
             cartItem.setItem(itemDAOImpl.getItemById(cartItem.getItem().getId()));
         }
 
-        listItemCartAdapter = new ListItemCartAdapter(mainActivity, cart.getCartItems());
+        listItemCartAdapter = new ListItemCartAdapter(mainActivity, cartItemsList);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(mainActivity);
         rclCartItems.setAdapter(listItemCartAdapter);
         rclCartItems.setLayoutManager(manager);
 
         return view;
+    }
+
+    @Override
+    public void updateCartData() {
+        String userName = PreferenceUtils.getUsername(mainActivity);
+        if(userName!=null) Log.d(TAG, "updateCartData: " + userName);
+        cart = cartDAOImpl.getCartOfUser(userDAOImpl.getUser(userName));
+        cartItemsList.clear();
+        cartItemsList.addAll(cart.getCartItems());
+        for(CartItem cartItem : cartItemsList){
+            cartItem.setItem(itemDAOImpl.getItemById(cartItem.getItem().getId()));
+        }
+        listItemCartAdapter.notifyDataSetChanged();
     }
 }
