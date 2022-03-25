@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.provider.SearchRecentSuggestions;
+import android.widget.CompoundButton;
 import android.widget.SearchView;
 
 import com.example.mobile.R;
@@ -28,7 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, CompoundButton.OnCheckedChangeListener {
     private ViewPager2 viewPagerMain;
     private BottomNavigationView bottomNavigation;
     private ViewPagerAdapter viewPagerAdapter;
@@ -160,6 +161,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
     }
 }

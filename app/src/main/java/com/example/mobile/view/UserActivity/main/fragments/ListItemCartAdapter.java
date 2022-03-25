@@ -19,16 +19,23 @@ import com.example.mobile.R;
 import com.example.mobile.model.Item.Item;
 import com.example.mobile.model.cart.CartItem;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Locale;
 
 public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapter.ViewHolder>{
     private Context context;
     private ArrayList<CartItem> cartItemList;
+    protected ArrayList<CartItem> selectedCartItems;
+    private boolean isSelectAllCB = false;
+    private ISendData iSendData;
 
-    public ListItemCartAdapter(Context context, ArrayList<CartItem> cartItemList) {
+    public ListItemCartAdapter(Context context, ArrayList<CartItem> cartItemList, ISendData iSendData) {
         this.context = context;
         this.cartItemList = cartItemList;
+        this.iSendData = iSendData;
+        selectedCartItems = new ArrayList<>();
     }
 
     @NonNull
@@ -44,7 +51,20 @@ public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CartItem cartItem = cartItemList.get(position);
         Item item = cartItem.getItem();
-//        holder.cbItemCart.setOnCheckedChangeListener((CompoundButton.OnCheckedChangeListener) context);
+        holder.cbItemCart.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if(compoundButton== holder.cbItemCart){
+                    if(isChecked) {
+                        iSendData.addSelectedCartItems(cartItem);
+                    }
+                    else {
+                        iSendData.removeSelectedCartItems(cartItem);
+                    }
+                }
+            }
+        });
+        holder.cbItemCart.setChecked(isSelectAllCB);
         holder.imgBtnItemCart.setImageResource(context.getResources().getIdentifier(item.getElectronics().getImageLink().trim(), "drawable", context.getPackageName()));
         holder.txtItemCartName.setText(item.getElectronics().getName());
         holder.txtItemCartPrice.setText(String.format(Locale.ENGLISH, "%.1fđ", item.getUnitPrice()));
@@ -75,6 +95,11 @@ public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapte
     @Override
     public int getItemCount() {
         return cartItemList.size();
+    }
+
+    public void checkAllCB(){
+        isSelectAllCB = !isSelectAllCB;
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,6 +29,7 @@ import com.example.mobile.utils.PreferenceUtils;
 import com.example.mobile.view.UserActivity.main.MainActivity;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class CartFragment extends Fragment implements ISendData{
     private RecyclerView rclCartItems;
@@ -41,6 +43,7 @@ public class CartFragment extends Fragment implements ISendData{
     private ListItemCartAdapter listItemCartAdapter;
     private Cart cart;
     private ArrayList<CartItem> cartItemsList;
+    protected ArrayList<CartItem> selectedCartItems;
 
     private MainActivity mainActivity;
     private ISendData iSendData = this;
@@ -62,6 +65,8 @@ public class CartFragment extends Fragment implements ISendData{
         txtTotalCartCost = view.findViewById(R.id.txt_total_cart);
         btnBuy = view.findViewById(R.id.btn_buy_cart);
 
+
+
         cartDAOImpl = new CartDAOImpl(mainActivity);
         itemDAOImpl = new ItemDAOImpl(mainActivity);
         userDAOImpl = new UserDAOImpl(mainActivity);
@@ -72,11 +77,19 @@ public class CartFragment extends Fragment implements ISendData{
             cartItem.setItem(itemDAOImpl.getItemById(cartItem.getItem().getId()));
         }
 
-        listItemCartAdapter = new ListItemCartAdapter(mainActivity, cartItemsList);
+        listItemCartAdapter = new ListItemCartAdapter(mainActivity, cartItemsList, this);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(mainActivity);
         rclCartItems.setAdapter(listItemCartAdapter);
         rclCartItems.setLayoutManager(manager);
 
+        selectedCartItems = new ArrayList<>();
+
+        cbAllCartItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                listItemCartAdapter.checkAllCB();
+            }
+        });
         return view;
     }
 
@@ -92,4 +105,30 @@ public class CartFragment extends Fragment implements ISendData{
         }
         listItemCartAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void addSelectedCartItems(CartItem cartItem) {
+        selectedCartItems.add(cartItem);
+        if(selectedCartItems.size()==cartItemsList.size()){
+            cbAllCartItem.setChecked(true);
+        }
+        System.out.println("Number of selected items after adding: " + selectedCartItems.size());
+    }
+
+    @Override
+    public void removeSelectedCartItems(CartItem cartItem) {
+        removeSelectedItemList(cartItem.getItem().getId());
+        System.out.println("Number of selected items after removing: " + selectedCartItems.size());
+    }
+
+    private void removeSelectedItemList(int itemId){
+        Iterator<CartItem> cartItemIterator = selectedCartItems.iterator();
+        while(cartItemIterator.hasNext()){
+            if(cartItemIterator.next().getItem().getId()==itemId){
+                cartItemIterator.remove();
+            }
+        }
+    }
+
+
 }

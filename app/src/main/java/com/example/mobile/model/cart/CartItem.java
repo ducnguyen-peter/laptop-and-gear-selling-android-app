@@ -5,7 +5,6 @@ import com.example.mobile.model.Item.Item;
 import java.io.Serializable;
 
 public class CartItem implements Serializable {
-    private int id;
     private int amount;
     private float discount;
     private Item item;
@@ -13,19 +12,10 @@ public class CartItem implements Serializable {
     public CartItem() {
     }
 
-    public CartItem(int id, int amount, float discount, Item item) {
-        this.id = id;
+    public CartItem(int amount, float discount, Item item) {
         this.amount = amount;
         this.discount = discount;
         this.item = item;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getAmount() {
