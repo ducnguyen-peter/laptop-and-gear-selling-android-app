@@ -29,6 +29,7 @@ import com.example.mobile.view.UserActivity.main.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 
 public class CartFragment extends Fragment implements ISendData{
     private RecyclerView rclCartItems;
@@ -91,6 +92,8 @@ public class CartFragment extends Fragment implements ISendData{
                 }
             }
         });
+
+        txtTotalCartCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", getTotalCartCost()));
         return view;
     }
 
@@ -113,13 +116,39 @@ public class CartFragment extends Fragment implements ISendData{
         if(selectedCartItems.size()==cartItemsList.size()){
             cbAllCartItem.setChecked(true);
         }
+        txtTotalCartCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", getTotalCartCost()));
         System.out.println("Number of selected items after adding: " + selectedCartItems.size());
     }
 
     @Override
     public void removeSelectedCartItems(CartItem cartItem) {
         removeSelectedItemArray(cartItem.getItem().getId());
+        txtTotalCartCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", getTotalCartCost()));
         System.out.println("Number of selected items after removing: " + selectedCartItems.size());
+    }
+
+    @Override
+    public void updateSelectedCartItemsAmount(CartItem cartItem, int amount) {
+        updateSelectedItemAmount(cartItem.getItem().getId(), amount);
+    }
+
+    private float getTotalCartCost(){
+        float cost = 0;
+        for(CartItem cartItem : selectedCartItems){
+            cost += (cartItem.getItem().getUnitPrice()*cartItem.getAmount());
+        }
+        return cost;
+    }
+
+    private void updateSelectedItemAmount(int itemId, int amount){
+        Iterator<CartItem> cartItemIterator = selectedCartItems.iterator();
+        while(cartItemIterator.hasNext()){
+            CartItem cartItem = cartItemIterator.next();
+            if(cartItem.getItem().getId()==itemId){
+                cartItem.setAmount(amount);
+            }
+        }
+        txtTotalCartCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", getTotalCartCost()));
     }
 
     private void removeSelectedItemArray(int itemId){

@@ -77,6 +77,7 @@ public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapte
         holder.txtItemCartName.setText(item.getElectronics().getName());
         holder.txtItemCartPrice.setText(String.format(Locale.ENGLISH, "%.1fđ", item.getUnitPrice()));
         holder.edtAmount.setText(String.format(Locale.ENGLISH, "%d", holder.amount));
+        //when amount in selecting box changes
         holder.edtAmount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -92,7 +93,8 @@ public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapte
             public void afterTextChanged(Editable editable) {
                 cartItem.setAmount(holder.amount);
                 holder.txtTotalItemCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", item.getUnitPrice()*holder.amount));
-
+                iSendData.updateSelectedCartItemsAmount(cartItem, cartItem.getAmount());
+//                notifyDataSetChanged();
             }
         });
         holder.btnMinus.setOnClickListener(new View.OnClickListener() {
