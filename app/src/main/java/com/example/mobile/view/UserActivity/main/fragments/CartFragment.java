@@ -22,7 +22,6 @@ import com.example.mobile.R;
 import com.example.mobile.controller.CartDAO.CartDAOImpl;
 import com.example.mobile.controller.ItemDAO.ItemDAOImpl;
 import com.example.mobile.controller.UserDAO.UserDAOImpl;
-import com.example.mobile.model.Item.Item;
 import com.example.mobile.model.cart.Cart;
 import com.example.mobile.model.cart.CartItem;
 import com.example.mobile.utils.PreferenceUtils;
@@ -65,8 +64,6 @@ public class CartFragment extends Fragment implements ISendData{
         txtTotalCartCost = view.findViewById(R.id.txt_total_cart);
         btnBuy = view.findViewById(R.id.btn_buy_cart);
 
-
-
         cartDAOImpl = new CartDAOImpl(mainActivity);
         itemDAOImpl = new ItemDAOImpl(mainActivity);
         userDAOImpl = new UserDAOImpl(mainActivity);
@@ -87,7 +84,11 @@ public class CartFragment extends Fragment implements ISendData{
         cbAllCartItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                listItemCartAdapter.checkAllCB();
+                if(b && selectedCartItems.size()==0)
+                    listItemCartAdapter.checkAllCB(true);
+                if(!b && selectedCartItems.size()==cartItemsList.size()){
+                    listItemCartAdapter.checkAllCB(false);
+                }
             }
         });
         return view;
@@ -117,15 +118,16 @@ public class CartFragment extends Fragment implements ISendData{
 
     @Override
     public void removeSelectedCartItems(CartItem cartItem) {
-        removeSelectedItemList(cartItem.getItem().getId());
+        removeSelectedItemArray(cartItem.getItem().getId());
         System.out.println("Number of selected items after removing: " + selectedCartItems.size());
     }
 
-    private void removeSelectedItemList(int itemId){
+    private void removeSelectedItemArray(int itemId){
         Iterator<CartItem> cartItemIterator = selectedCartItems.iterator();
         while(cartItemIterator.hasNext()){
             if(cartItemIterator.next().getItem().getId()==itemId){
                 cartItemIterator.remove();
+                cbAllCartItem.setChecked(false);
             }
         }
     }

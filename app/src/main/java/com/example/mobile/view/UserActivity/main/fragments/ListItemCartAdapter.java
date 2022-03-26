@@ -1,6 +1,8 @@
 package com.example.mobile.view.UserActivity.main.fragments;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,11 @@ public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapte
         selectedCartItems = new ArrayList<>();
     }
 
+    public void checkAllCB(boolean b){
+        isSelectAllCB = b;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -64,10 +71,30 @@ public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapte
                 }
             }
         });
+//        itemCheckBoxes.add(holder.cbItemCart);
         holder.cbItemCart.setChecked(isSelectAllCB);
         holder.imgBtnItemCart.setImageResource(context.getResources().getIdentifier(item.getElectronics().getImageLink().trim(), "drawable", context.getPackageName()));
         holder.txtItemCartName.setText(item.getElectronics().getName());
         holder.txtItemCartPrice.setText(String.format(Locale.ENGLISH, "%.1fđ", item.getUnitPrice()));
+        holder.edtAmount.setText(String.format(Locale.ENGLISH, "%d", holder.amount));
+        holder.edtAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                cartItem.setAmount(holder.amount);
+                holder.txtTotalItemCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", item.getUnitPrice()*holder.amount));
+
+            }
+        });
         holder.btnMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,18 +115,12 @@ public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapte
                 }
             }
         });
-        holder.edtAmount.setText(String.format(Locale.ENGLISH, "%d", holder.amount));
-        holder.txtTotalItemCost.setText(String.format(Locale.ENGLISH, "%.1fđ", item.getUnitPrice()));
+        holder.txtTotalItemCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", item.getUnitPrice()* holder.amount));
     }
 
     @Override
     public int getItemCount() {
         return cartItemList.size();
-    }
-
-    public void checkAllCB(){
-        isSelectAllCB = !isSelectAllCB;
-        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
