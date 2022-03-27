@@ -32,19 +32,23 @@ import java.util.Iterator;
 import java.util.Locale;
 
 public class CartFragment extends Fragment implements ISendData{
+    //views
     private RecyclerView rclCartItems;
     private CheckBox cbAllCartItem;
     private TextView txtTotalCartCost;
     private Button btnBuy;
 
+    //data and DAO
     private CartDAOImpl cartDAOImpl;
     private ItemDAOImpl itemDAOImpl;
     private UserDAOImpl userDAOImpl;
     private ListItemCartAdapter listItemCartAdapter;
     private Cart cart;
     private ArrayList<CartItem> cartItemsList;
-    protected ArrayList<CartItem> selectedCartItems;
+    private ArrayList<CartItem> selectedCartItems;
+    private float cost;
 
+    //parents view and interface
     private MainActivity mainActivity;
     private ISendData iSendData = this;
 
@@ -92,8 +96,8 @@ public class CartFragment extends Fragment implements ISendData{
                 }
             }
         });
-
-        txtTotalCartCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", getTotalCartCost()));
+        cost = getTotalCartCost();
+        txtTotalCartCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", cost));
         return view;
     }
 
@@ -116,14 +120,16 @@ public class CartFragment extends Fragment implements ISendData{
         if(selectedCartItems.size()==cartItemsList.size()){
             cbAllCartItem.setChecked(true);
         }
-        txtTotalCartCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", getTotalCartCost()));
+        cost = getTotalCartCost();
+        txtTotalCartCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", cost));
         System.out.println("Number of selected items after adding: " + selectedCartItems.size());
     }
 
     @Override
     public void removeSelectedCartItems(CartItem cartItem) {
         removeSelectedItemArray(cartItem.getItem().getId());
-        txtTotalCartCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", getTotalCartCost()));
+        cost = getTotalCartCost();
+        txtTotalCartCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", cost));
         System.out.println("Number of selected items after removing: " + selectedCartItems.size());
     }
 
@@ -132,8 +138,14 @@ public class CartFragment extends Fragment implements ISendData{
         updateSelectedItemAmount(cartItem.getItem().getId(), amount);
     }
 
+    @Override
+    public void deleteCartItem(CartItem cartItem) {
+        cartDAOImpl.deleteCartItem(cartItem, cart.getId());
+        updateCartData();
+    }
+
     private float getTotalCartCost(){
-        float cost = 0;
+        cost = 0;
         for(CartItem cartItem : selectedCartItems){
             cost += (cartItem.getItem().getUnitPrice()*cartItem.getAmount());
         }
@@ -148,7 +160,8 @@ public class CartFragment extends Fragment implements ISendData{
                 cartItem.setAmount(amount);
             }
         }
-        txtTotalCartCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", getTotalCartCost()));
+        cost = getTotalCartCost();
+        txtTotalCartCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", cost));
     }
 
     private void removeSelectedItemArray(int itemId){

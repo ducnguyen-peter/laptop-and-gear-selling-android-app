@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.mobile.model.Item.Item;
 import com.example.mobile.model.cart.Cart;
@@ -107,6 +108,10 @@ public class CartDAOImpl implements CartDAO{
     }
 
     public boolean addCartItem(Item item, int cartId, int amount, int discount){
+        if(isDuplicatedCartItem(item)){
+            Toast.makeText(context, "This item is already in your cart", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         ContentValues contentValues = new ContentValues();
         contentValues.put(Constant.COLUMN_CART_ITEM_AMOUNT, amount);
         contentValues.put(Constant.COLUMN_CART_ITEM_DISCOUNT, discount);
@@ -114,6 +119,27 @@ public class CartDAOImpl implements CartDAO{
         contentValues.put(Constant.COLUMN_CART_ITEM_ITEM_ID, item.getId());
         long newRowId = sqLiteDatabase.insertOrThrow(Constant.TABLE_CART_ITEM, null, contentValues);
         return newRowId!=-1;
+    }
+
+    public boolean deleteCartItem(CartItem cartItem, int cartId){
+        String whereClause = Constant.COLUMN_CART_ITEM_ITEM_ID + " = ? AND " + Constant.COLUMN_CART_ITEM_CART_ID + " = ?";
+        String[] whereArgs = {
+                Integer.toString(cartItem.getItem().getId()), Integer.toString(cartId)
+        };
+        return sqLiteDatabase.delete(Constant.TABLE_CART_ITEM, whereClause, whereArgs) > 0;
+    }
+
+    public boolean isDuplicatedCartItem(Item item){
+        int itemId = item.getId();
+        String[] columns = {
+                Constant.COLUMN_CART_ITEM_ITEM_ID
+        };
+        String selection = Constant.COLUMN_CART_ITEM_ITEM_ID + " = ?";
+        String[] selectionArgs = {Integer.toString(itemId)};
+        Cursor cursor = sqLiteDatabase.query(Constant.TABLE_CART_ITEM, columns, selection, selectionArgs, null, null, null);
+        int cursorCount = cursor.getCount();
+        cursor.close();
+        return cursorCount>0;
     }
 
     private Cart cursorToCart(Cursor cursor){

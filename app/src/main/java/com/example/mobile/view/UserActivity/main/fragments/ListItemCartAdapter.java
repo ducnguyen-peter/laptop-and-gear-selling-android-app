@@ -21,15 +21,12 @@ import com.example.mobile.R;
 import com.example.mobile.model.Item.Item;
 import com.example.mobile.model.cart.CartItem;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Locale;
 
-public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapter.ViewHolder>{
+public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapter.CartItemViewHolder> {
     private Context context;
     private ArrayList<CartItem> cartItemList;
-    protected ArrayList<CartItem> selectedCartItems;
     private boolean isSelectAllCB = false;
     private ISendData iSendData;
 
@@ -37,35 +34,35 @@ public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapte
         this.context = context;
         this.cartItemList = cartItemList;
         this.iSendData = iSendData;
-        selectedCartItems = new ArrayList<>();
     }
 
-    public void checkAllCB(boolean b){
+
+    public void checkAllCB(boolean b) {
         isSelectAllCB = b;
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CartItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View cartItemView = inflater.inflate(R.layout.cart_row_item_layout, parent, false);
-        ViewHolder viewHolder = new ViewHolder(cartItemView);
-        return viewHolder;
+        CartItemViewHolder cartItemViewHolder = new CartItemViewHolder(cartItemView);
+        return cartItemViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CartItemViewHolder holder, int position) {
         CartItem cartItem = cartItemList.get(position);
+
         Item item = cartItem.getItem();
         holder.cbItemCart.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if(compoundButton== holder.cbItemCart){
-                    if(isChecked) {
+                if (compoundButton == holder.cbItemCart) {
+                    if (isChecked) {
                         iSendData.addSelectedCartItems(cartItem);
-                    }
-                    else {
+                    } else {
                         iSendData.removeSelectedCartItems(cartItem);
                     }
                 }
@@ -92,7 +89,7 @@ public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapte
             @Override
             public void afterTextChanged(Editable editable) {
                 cartItem.setAmount(holder.amount);
-                holder.txtTotalItemCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", item.getUnitPrice()*holder.amount));
+                holder.txtTotalItemCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", item.getUnitPrice() * holder.amount));
                 iSendData.updateSelectedCartItemsAmount(cartItem, cartItem.getAmount());
 //                notifyDataSetChanged();
             }
@@ -100,8 +97,8 @@ public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapte
         holder.btnMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(holder.amount>1) {
-                    holder.amount-=1;
+                if (holder.amount > 1) {
+                    holder.amount -= 1;
                     holder.edtAmount.setText(String.format(Locale.ENGLISH, "%d", holder.amount));
                 }
             }
@@ -109,15 +106,21 @@ public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapte
         holder.btnPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(holder.amount<=item.getQuantity()) {
-                    holder.amount+=1;
+                if (holder.amount <= item.getQuantity()) {
+                    holder.amount += 1;
                     holder.edtAmount.setText(String.format(Locale.ENGLISH, "%d", holder.amount));
-                } else{
+                } else {
                     Toast.makeText(context, "You can't buy more than available", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        holder.txtTotalItemCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", item.getUnitPrice()* holder.amount));
+        holder.txtTotalItemCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", item.getUnitPrice() * holder.amount));
+        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                iSendData.deleteCartItem(cartItem);
+            }
+        });
     }
 
     @Override
@@ -125,7 +128,7 @@ public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapte
         return cartItemList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class CartItemViewHolder extends RecyclerView.ViewHolder {
         public CheckBox cbItemCart;
         public ImageButton imgBtnItemCart;
         public TextView txtItemCartName;
@@ -134,9 +137,10 @@ public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapte
         public Button btnPlus;
         public EditText edtAmount;
         public TextView txtTotalItemCost;
+        public ImageButton btnDelete;
         public int amount;
 
-        public ViewHolder(@NonNull View itemView) {
+        public CartItemViewHolder(@NonNull View itemView) {
             super(itemView);
             cbItemCart = itemView.findViewById(R.id.cb_item_cart);
             imgBtnItemCart = itemView.findViewById(R.id.btn_item_cart);
@@ -146,7 +150,15 @@ public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapte
             btnPlus = itemView.findViewById(R.id.btn_plus);
             edtAmount = itemView.findViewById(R.id.edt_amount);
             txtTotalItemCost = itemView.findViewById(R.id.txt_total_itemcart);
+            btnDelete = itemView.findViewById(R.id.btn_itemcart_delete);
             amount = 1;
+        }
+    }
+
+    public class ItemMenuViewHolder extends RecyclerView.ViewHolder {
+
+        public ItemMenuViewHolder(@NonNull View itemView) {
+            super(itemView);
         }
     }
 }
