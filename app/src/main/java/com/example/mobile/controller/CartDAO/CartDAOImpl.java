@@ -62,9 +62,9 @@ public class CartDAOImpl implements CartDAO{
         try{
             String queryCart = "SELECT Cart.Id, Cart.Discount, Cart.UserId FROM Cart, User WHERE Cart.UserId = User.Id AND User.Id = ?;";
             Cursor cursor = sqLiteDatabase.rawQuery(queryCart, new String[]{Integer.toString(user.getId())});
-            System.out.println("User Id: " + user.getId());
+            System.out.println("CartDAOImpl.isCartExisted(): User Id: " + user.getId());
             cursorCount = cursor.getCount();
-            System.out.println("Cursor count: " + cursorCount);
+            System.out.println("CartDAOImpl.isCartExisted(): Cursor count: " + cursorCount);
             cursor.close();
         } catch(SQLException e){
             e.printStackTrace();
@@ -108,7 +108,7 @@ public class CartDAOImpl implements CartDAO{
     }
 
     public boolean addCartItem(Item item, int cartId, int amount, int discount){
-        if(isDuplicatedCartItem(item)){
+        if(isDuplicatedCartItem(item, cartId)){
             Toast.makeText(context, "This item is already in your cart", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -129,13 +129,13 @@ public class CartDAOImpl implements CartDAO{
         return sqLiteDatabase.delete(Constant.TABLE_CART_ITEM, whereClause, whereArgs) > 0;
     }
 
-    public boolean isDuplicatedCartItem(Item item){
+    public boolean isDuplicatedCartItem(Item item, int cartId){
         int itemId = item.getId();
         String[] columns = {
                 Constant.COLUMN_CART_ITEM_ITEM_ID
         };
-        String selection = Constant.COLUMN_CART_ITEM_ITEM_ID + " = ?";
-        String[] selectionArgs = {Integer.toString(itemId)};
+        String selection = Constant.COLUMN_CART_ITEM_ITEM_ID + " = ? AND " + Constant.COLUMN_CART_ITEM_CART_ID + " = ?";
+        String[] selectionArgs = {Integer.toString(itemId), };
         Cursor cursor = sqLiteDatabase.query(Constant.TABLE_CART_ITEM, columns, selection, selectionArgs, null, null, null);
         int cursorCount = cursor.getCount();
         cursor.close();

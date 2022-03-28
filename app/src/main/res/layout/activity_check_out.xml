@@ -80,7 +80,7 @@
         android:id="@+id/constraintLayout4"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@color/material_dynamic_neutral_variant80"
+        android:background="#FFC0C7CD"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

@@ -80,9 +80,11 @@ public class CartFragment extends Fragment implements ISendData{
         }
 
         listItemCartAdapter = new ListItemCartAdapter(mainActivity, cartItemsList, this);
+        listItemCartAdapter.setHasStableIds(true);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(mainActivity);
         rclCartItems.setAdapter(listItemCartAdapter);
         rclCartItems.setLayoutManager(manager);
+        rclCartItems.setHasFixedSize(true);
 
         selectedCartItems = new ArrayList<>();
 

@@ -14,13 +14,11 @@ import com.example.mobile.view.UserActivity.main.fragments.HomeFragment;
 import com.example.mobile.view.UserActivity.main.fragments.UserProfileFragment;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
-    private MainActivity mainActivity;
     private HomeFragment homeFragment;
     private CartFragment cartFragment;
     private UserProfileFragment userProfileFragment;
     public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity, HomeFragment homeFragment, CartFragment cartFragment, UserProfileFragment userProfileFragment) {
         super(fragmentActivity);
-        mainActivity = (MainActivity) fragmentActivity;
         this.homeFragment = homeFragment;
         this.cartFragment = cartFragment;
         this.userProfileFragment = userProfileFragment;

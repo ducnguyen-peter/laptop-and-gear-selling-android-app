@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if(!cartDAOImpl.isCartExisted(user)){
             Cart cart = cartDAOImpl.createCart(user);
             PreferenceUtils.saveCartId(cart.getId(), this);
+            System.out.println("New cart of user " + user.getUsername() + " has Id: " + cart.getId());
         }else{
             PreferenceUtils.saveCartId(cartDAOImpl.getCartOfUser(user).getId(), this);
         }
