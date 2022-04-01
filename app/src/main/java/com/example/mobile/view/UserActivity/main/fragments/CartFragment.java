@@ -125,19 +125,6 @@ public class CartFragment extends Fragment{
         listItemCartAdapter.notifyDataSetChanged();
     }
 
-//    @Override
-//    public void updateCartData() {
-        /* String userName = PreferenceUtils.getUsername(mainActivity);
-        if(userName!=null) Log.d(TAG, "updateCartData: " + userName);
-        cart = cartDAOImpl.getCartOfUser(userDAOImpl.getUser(userName));
-        cartItemsList.clear();
-        cartItemsList.addAll(cart.getCartItems());
-        for(CartItem cartItem : cartItemsList){
-            cartItem.setItem(itemDAOImpl.getItemById(cartItem.getItem().getId()));
-        }
-        listItemCartAdapter.notifyDataSetChanged();*/
-//    }
-//
     public void addSelectedCartItems(CartItem cartItem) {
         selectedCartItems.add(cartItem);
         if(selectedCartItems.size()==cartItemsList.size()){
@@ -154,14 +141,14 @@ public class CartFragment extends Fragment{
         txtTotalCartCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", cost));
         System.out.println("Number of selected items after removing: " + selectedCartItems.size());
     }
-//
+
     public void updateSelectedCartItemsAmount(CartItem cartItem, int amount) {
         updateSelectedItemAmount(cartItem.getItem().getId(), amount);
     }
-//
-//    @Override
+
     public void deleteCartItem(CartItem cartItem) {
         cartDAOImpl.deleteCartItem(cartItem, cart.getId());
+        removeSelectedItemArray(cartItem.getItem().getId());
         iSendData.updateCartData();
     }
 
@@ -193,7 +180,8 @@ public class CartFragment extends Fragment{
                 cbAllCartItem.setChecked(false);
             }
         }
+        cost = getTotalCartCost();
+        txtTotalCartCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", cost));
     }
-
 
 }
