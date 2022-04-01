@@ -43,4 +43,8 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     public int getItemCount() {
         return 3;
     }
+
+    public CartFragment getCartFragment() {
+        return cartFragment;
+    }
 }

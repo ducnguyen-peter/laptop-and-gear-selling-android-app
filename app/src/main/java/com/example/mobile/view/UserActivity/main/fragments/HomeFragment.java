@@ -3,6 +3,7 @@ package com.example.mobile.view.UserActivity.main.fragments;
 import static android.content.ContentValues.TAG;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,16 +41,7 @@ public class HomeFragment extends Fragment {
 
     ISendData iSendData;
 
-    ActivityResultLauncher<Intent> activityLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if(result.getResultCode()== Activity.RESULT_OK) iSendData.updateCartData();
-                    Log.d(TAG, "onActivityResult: Failed to update cart");
-                }
-            }
-    );
+    ActivityResultLauncher<Intent> activityLauncher;
 
     public HomeFragment(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
@@ -68,6 +60,17 @@ public class HomeFragment extends Fragment {
         txtWelcome.setText(R.string.welcome_text);
         gridItem = view.findViewById(R.id.grid_item);
 
+        activityLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if(result.getResultCode()== Activity.RESULT_OK) iSendData.updateCartData();
+                        Log.d(TAG, "onActivityResult: Failed to update cart");
+                    }
+                }
+        );
+
         itemDAOImpl = new ItemDAOImpl(mainActivity);
         itemList = itemDAOImpl.getAllItems();
         itemGridAdapter = new ItemGridAdapter(mainActivity, itemList);
@@ -82,5 +85,16 @@ public class HomeFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if(context instanceof ISendData){
+            iSendData = (ISendData) context;
+        }
+        else {
+            throw new ClassCastException();
+        }
     }
 }

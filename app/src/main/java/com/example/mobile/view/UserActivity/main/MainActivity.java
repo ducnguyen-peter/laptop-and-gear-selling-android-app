@@ -1,5 +1,6 @@
 package com.example.mobile.view.UserActivity.main;
 
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
@@ -10,12 +11,15 @@ import android.widget.SearchView;
 
 import com.example.mobile.R;
 import com.example.mobile.controller.CartDAO.CartDAOImpl;
+import com.example.mobile.controller.ItemDAO.ItemDAOImpl;
 import com.example.mobile.controller.UserDAO.UserDAOImpl;
 import com.example.mobile.model.cart.Cart;
+import com.example.mobile.model.cart.CartItem;
 import com.example.mobile.model.user.User;
 import com.example.mobile.utils.PreferenceUtils;
 import com.example.mobile.view.UserActivity.main.fragments.CartFragment;
 import com.example.mobile.view.UserActivity.main.fragments.HomeFragment;
+import com.example.mobile.view.UserActivity.main.fragments.ISendData;
 import com.example.mobile.view.UserActivity.main.fragments.UserProfileFragment;
 import com.example.mobile.view.UserActivity.verifyuser.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -29,7 +33,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, CompoundButton.OnCheckedChangeListener {
+
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, CompoundButton.OnCheckedChangeListener, ISendData {
     private ViewPager2 viewPagerMain;
     private BottomNavigationView bottomNavigation;
     private ViewPagerAdapter viewPagerAdapter;
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private UserDAOImpl userDAOImpl;
     private CartDAOImpl cartDAOImpl;
+    private ItemDAOImpl itemDAOImpl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +53,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
         userDAOImpl = new UserDAOImpl(this);
         cartDAOImpl = new CartDAOImpl(this);
+        itemDAOImpl = new ItemDAOImpl(this);
         User user = userDAOImpl.getUser(PreferenceUtils.getUsername(this));
-        if(!cartDAOImpl.isCartExisted(user)){
+        if (!cartDAOImpl.isCartExisted(user)) {
             Cart cart = cartDAOImpl.createCart(user);
             PreferenceUtils.saveCartId(cart.getId(), this);
             System.out.println("New cart of user " + user.getUsername() + " has Id: " + cart.getId());
-        }else{
+        } else {
             PreferenceUtils.saveCartId(cartDAOImpl.getCartOfUser(user).getId(), this);
         }
         init();
@@ -66,8 +73,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         handleIntent(intent);
     }
 
-    private void handleIntent(Intent intent){
-        if(Intent.ACTION_SEARCH.equals(intent.getAction())){
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String input = intent.getStringExtra(SearchManager.QUERY);
             //save recent query
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this, RecentQuerySuggestionProvider.AUTHORITY, RecentQuerySuggestionProvider.MODE);
@@ -79,11 +86,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-    private void init(){
+    private void init() {
         setupViewPager();
     }
 
-    private void setupViewPager(){
+    private void setupViewPager() {
         //init view pager
         viewPagerMain = findViewById(R.id.view_pager_main);
         bottomNavigation = findViewById(R.id.bottom_navigation);
@@ -91,17 +98,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         cartFragment = new CartFragment(this);
         userProfileFragment = new UserProfileFragment();
 
-        homeFragment.setISendData(cartFragment.getISendData());
-
         viewPagerAdapter = new ViewPagerAdapter(this, homeFragment, cartFragment, userProfileFragment);
         viewPagerMain.setAdapter(viewPagerAdapter);
         //when clicking an item (a tab) of the bottom navigation bar
         bottomNavigation.setOnItemSelectedListener(item -> {
-            if(item.getItemId()==R.id.action_home){
+            if (item.getItemId() == R.id.action_home) {
                 viewPagerMain.setCurrentItem(0);
-            } else if (item.getItemId()==R.id.action_cart){
+            } else if (item.getItemId() == R.id.action_cart) {
                 viewPagerMain.setCurrentItem(1);
-            } else if (item.getItemId()==R.id.action_user_profile){
+            } else if (item.getItemId() == R.id.action_user_profile) {
                 viewPagerMain.setCurrentItem(2);
             }
             return true;
@@ -116,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             @Override
             public void onPageSelected(int position) {
-                switch (position){
+                switch (position) {
                     case 0:
                         bottomNavigation.getMenu().findItem(R.id.action_home).setChecked(true);
                         break;
@@ -148,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     //when an item on the bar is selected
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId()==R.id.logout){
+        if (item.getItemId() == R.id.logout) {
             PreferenceUtils.savePassword(null, this);
             PreferenceUtils.saveUsername(null, this);
             Intent intent = new Intent(this, LoginActivity.class);
@@ -168,5 +173,30 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
+    }
+
+    @Override
+    public void updateCartData() {
+        viewPagerAdapter.getCartFragment().updateCartData();
+    }
+
+    @Override
+    public void addSelectedCartItems(CartItem cartItem) {
+        viewPagerAdapter.getCartFragment().addSelectedCartItems(cartItem);
+    }
+
+    @Override
+    public void removeSelectedCartItems(CartItem cartItem) {
+        viewPagerAdapter.getCartFragment().removeSelectedCartItems(cartItem);
+    }
+
+    @Override
+    public void updateSelectedCartItemsAmount(CartItem cartItem, int amount) {
+        viewPagerAdapter.getCartFragment().updateSelectedCartItemsAmount(cartItem, amount);
+    }
+
+    @Override
+    public void deleteCartItem(CartItem cartItem) {
+        viewPagerAdapter.getCartFragment().deleteCartItem(cartItem);
     }
 }

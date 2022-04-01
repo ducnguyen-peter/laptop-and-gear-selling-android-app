@@ -154,11 +154,4 @@ public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapte
             amount = 1;
         }
     }
-
-    public class ItemMenuViewHolder extends RecyclerView.ViewHolder {
-
-        public ItemMenuViewHolder(@NonNull View itemView) {
-            super(itemView);
-        }
-    }
 }

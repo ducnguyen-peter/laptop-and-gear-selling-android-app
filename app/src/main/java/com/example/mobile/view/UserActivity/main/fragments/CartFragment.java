@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
 
-public class CartFragment extends Fragment implements ISendData{
+public class CartFragment extends Fragment{
     //views
     private RecyclerView rclCartItems;
     private CheckBox cbAllCartItem;
@@ -50,14 +50,38 @@ public class CartFragment extends Fragment implements ISendData{
 
     //parents view and interface
     private MainActivity mainActivity;
-    private ISendData iSendData = this;
+    private ISendData iSendData;
 
     public CartFragment(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
+        iSendData = (ISendData) this.mainActivity;
+        cartDAOImpl = new CartDAOImpl(mainActivity);
+        itemDAOImpl = new ItemDAOImpl(mainActivity);
+        userDAOImpl = new UserDAOImpl(mainActivity);
+
+        cart = cartDAOImpl.getCartOfUser(userDAOImpl.getUser(PreferenceUtils.getUsername(mainActivity)));
+        cartItemsList = cart.getCartItems();
+        for(CartItem cartItem : cartItemsList){
+            cartItem.setItem(itemDAOImpl.getItemById(cartItem.getItem().getId()));
+        }
+
+        listItemCartAdapter = new ListItemCartAdapter(mainActivity, cartItemsList, (ISendData) mainActivity);
+        listItemCartAdapter.setHasStableIds(true);
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(mainActivity);
+
+        selectedCartItems = new ArrayList<>();
+
+        cost = getTotalCartCost();
+
+        selectedCartItems = new ArrayList<>();
     }
 
-    public ISendData getISendData() {
-        return iSendData;
+    public static CartFragment newInstance(MainActivity mainActivity, Cart cart){
+        CartFragment cartFragment = new CartFragment(mainActivity);
+        Bundle arguments = new Bundle();
+        arguments.putSerializable("UPDATED_CART", cart);
+        cartFragment.setArguments(arguments);
+        return cartFragment;
     }
 
     @Nullable
@@ -69,24 +93,10 @@ public class CartFragment extends Fragment implements ISendData{
         txtTotalCartCost = view.findViewById(R.id.txt_total_cart);
         btnBuy = view.findViewById(R.id.btn_buy_cart);
 
-        cartDAOImpl = new CartDAOImpl(mainActivity);
-        itemDAOImpl = new ItemDAOImpl(mainActivity);
-        userDAOImpl = new UserDAOImpl(mainActivity);
-
-        cart = cartDAOImpl.getCartOfUser(userDAOImpl.getUser(PreferenceUtils.getUsername(mainActivity)));
-        cartItemsList = cart.getCartItems();
-        for(CartItem cartItem : cartItemsList){
-            cartItem.setItem(itemDAOImpl.getItemById(cartItem.getItem().getId()));
-        }
-
-        listItemCartAdapter = new ListItemCartAdapter(mainActivity, cartItemsList, this);
-        listItemCartAdapter.setHasStableIds(true);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(mainActivity);
         rclCartItems.setAdapter(listItemCartAdapter);
         rclCartItems.setLayoutManager(manager);
         rclCartItems.setHasFixedSize(true);
-
-        selectedCartItems = new ArrayList<>();
 
         cbAllCartItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -98,13 +108,12 @@ public class CartFragment extends Fragment implements ISendData{
                 }
             }
         });
-        cost = getTotalCartCost();
         txtTotalCartCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", cost));
+
         return view;
     }
 
-    @Override
-    public void updateCartData() {
+    public void updateCartData(){
         String userName = PreferenceUtils.getUsername(mainActivity);
         if(userName!=null) Log.d(TAG, "updateCartData: " + userName);
         cart = cartDAOImpl.getCartOfUser(userDAOImpl.getUser(userName));
@@ -116,7 +125,19 @@ public class CartFragment extends Fragment implements ISendData{
         listItemCartAdapter.notifyDataSetChanged();
     }
 
-    @Override
+//    @Override
+//    public void updateCartData() {
+        /* String userName = PreferenceUtils.getUsername(mainActivity);
+        if(userName!=null) Log.d(TAG, "updateCartData: " + userName);
+        cart = cartDAOImpl.getCartOfUser(userDAOImpl.getUser(userName));
+        cartItemsList.clear();
+        cartItemsList.addAll(cart.getCartItems());
+        for(CartItem cartItem : cartItemsList){
+            cartItem.setItem(itemDAOImpl.getItemById(cartItem.getItem().getId()));
+        }
+        listItemCartAdapter.notifyDataSetChanged();*/
+//    }
+//
     public void addSelectedCartItems(CartItem cartItem) {
         selectedCartItems.add(cartItem);
         if(selectedCartItems.size()==cartItemsList.size()){
@@ -127,23 +148,21 @@ public class CartFragment extends Fragment implements ISendData{
         System.out.println("Number of selected items after adding: " + selectedCartItems.size());
     }
 
-    @Override
     public void removeSelectedCartItems(CartItem cartItem) {
         removeSelectedItemArray(cartItem.getItem().getId());
         cost = getTotalCartCost();
         txtTotalCartCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", cost));
         System.out.println("Number of selected items after removing: " + selectedCartItems.size());
     }
-
-    @Override
+//
     public void updateSelectedCartItemsAmount(CartItem cartItem, int amount) {
         updateSelectedItemAmount(cartItem.getItem().getId(), amount);
     }
-
-    @Override
+//
+//    @Override
     public void deleteCartItem(CartItem cartItem) {
         cartDAOImpl.deleteCartItem(cartItem, cart.getId());
-        updateCartData();
+        iSendData.updateCartData();
     }
 
     private float getTotalCartCost(){
