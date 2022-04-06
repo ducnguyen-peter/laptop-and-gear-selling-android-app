@@ -23,6 +23,7 @@ import com.example.mobile.utils.PreferenceUtils;
 import com.example.mobile.view.UserActivity.main.fragments.ItemGridAdapter;
 import com.example.mobile.view.UserActivity.verifyuser.LoginActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class SearchResultsActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {

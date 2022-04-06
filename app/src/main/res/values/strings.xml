@@ -45,4 +45,14 @@
     <string name="nva_gmail_com">nva@gmail.com</string>
     <string name="edit_profile">Edit your profile</string>
     <string name="product_image">Product Image</string>
+    <string-array name="spinner_shipment">
+        <item>Standard</item>
+        <item>Ninja Van</item>
+        <item>Lightning Ship</item>
+    </string-array>
+
+    <string-array name="spinner_payment">
+        <item>COD</item>
+        <item>Credit card</item>
+    </string-array>
 </resources>

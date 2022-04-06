@@ -28,6 +28,7 @@ import com.example.mobile.model.Item.Item;
 import com.example.mobile.view.UserActivity.main.ItemDetailsActivity;
 import com.example.mobile.view.UserActivity.main.MainActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
@@ -80,7 +81,7 @@ public class HomeFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 item = itemList.get(i);
                 Intent intent = new Intent(mainActivity, ItemDetailsActivity.class);
-                intent.putExtra("ITEM", item);
+                intent.putExtra("ITEM", (Serializable) item);
                 activityLauncher.launch(intent);
             }
         });

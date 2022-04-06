@@ -2,6 +2,7 @@ package com.example.mobile.view.UserActivity.main.fragments;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import com.example.mobile.model.cart.Cart;
 import com.example.mobile.model.cart.CartItem;
 import com.example.mobile.utils.PreferenceUtils;
 import com.example.mobile.view.UserActivity.main.MainActivity;
+import com.example.mobile.view.UserActivity.order.CheckOutActivity;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -67,21 +69,14 @@ public class CartFragment extends Fragment{
 
         listItemCartAdapter = new ListItemCartAdapter(mainActivity, cartItemsList, (ISendData) mainActivity);
         listItemCartAdapter.setHasStableIds(true);
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(mainActivity);
 
         selectedCartItems = new ArrayList<>();
 
         cost = getTotalCartCost();
 
         selectedCartItems = new ArrayList<>();
-    }
 
-    public static CartFragment newInstance(MainActivity mainActivity, Cart cart){
-        CartFragment cartFragment = new CartFragment(mainActivity);
-        Bundle arguments = new Bundle();
-        arguments.putSerializable("UPDATED_CART", cart);
-        cartFragment.setArguments(arguments);
-        return cartFragment;
+
     }
 
     @Nullable
@@ -109,11 +104,21 @@ public class CartFragment extends Fragment{
             }
         });
         txtTotalCartCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", cost));
+        if(selectedCartItems.size()==0) btnBuy.setEnabled(false);
+        btnBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mainActivity, CheckOutActivity.class);
+                intent.putExtra("SELECTED_CART_ITEMS",selectedCartItems);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
 
     public void updateCartData(){
+
         String userName = PreferenceUtils.getUsername(mainActivity);
         if(userName!=null) Log.d(TAG, "updateCartData: " + userName);
         cart = cartDAOImpl.getCartOfUser(userDAOImpl.getUser(userName));
@@ -132,6 +137,7 @@ public class CartFragment extends Fragment{
         }
         cost = getTotalCartCost();
         txtTotalCartCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", cost));
+        btnBuy.setEnabled(true);
         System.out.println("Number of selected items after adding: " + selectedCartItems.size());
     }
 
@@ -139,6 +145,7 @@ public class CartFragment extends Fragment{
         removeSelectedItemArray(cartItem.getItem().getId());
         cost = getTotalCartCost();
         txtTotalCartCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", cost));
+        if(selectedCartItems.size()==0) btnBuy.setEnabled(false);
         System.out.println("Number of selected items after removing: " + selectedCartItems.size());
     }
 
@@ -149,7 +156,7 @@ public class CartFragment extends Fragment{
     public void deleteCartItem(CartItem cartItem) {
         cartDAOImpl.deleteCartItem(cartItem, cart.getId());
         removeSelectedItemArray(cartItem.getItem().getId());
-        iSendData.updateCartData();
+        updateCartData();
     }
 
     private float getTotalCartCost(){
@@ -161,10 +168,8 @@ public class CartFragment extends Fragment{
     }
 
     private void updateSelectedItemAmount(int itemId, int amount){
-        Iterator<CartItem> cartItemIterator = selectedCartItems.iterator();
-        while(cartItemIterator.hasNext()){
-            CartItem cartItem = cartItemIterator.next();
-            if(cartItem.getItem().getId()==itemId){
+        for (CartItem cartItem : selectedCartItems) {
+            if (cartItem.getItem().getId() == itemId) {
                 cartItem.setAmount(amount);
             }
         }

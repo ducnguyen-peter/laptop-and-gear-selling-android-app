@@ -82,4 +82,33 @@ public class Constant {
     public static String KEY_TEL = "tel";
     public static String KEY_PASSWORD = "password";
     public static String KEY_CART_ID = "cartId";
+
+    //name and columns for table Order
+    public static final String TABLE_ORDER = "Order";
+    public static final String COLUMN_ORDER_ID = "Id";
+    public static final String COLUMN_ORDER_STATUS = "Status";
+    public static final String COLUMN_ORDER_USER_ID = "UserId";
+
+    //name and columns for table OrderItem
+    public static final String TABLE_ORDER_ITEM = "OrderItem";
+    public static final String COLUMN_ORDER_ITEM_AMOUNT = "Amount";
+    public static final String COLUMN_ORDER_ITEM_DISCOUNT = "Discount";
+    public static final String COLUMN_ORDER_ITEM_ORDER_ID = "OrderId";
+    public static final String COLUMN_ORDER_ITEM_ITEM_ID = "ItemId";
+
+    //name and columns for table Payment
+    public static final String TABLE_PAYMENT = "Payment";
+    public static final String COLUMN_PAYMENT_ID = "Id";
+    public static final String COLUMN_PAYMENT_TYPE = "Type";
+    public static final String COLUMN_PAYMENT_TYPENAME = "TypeName";
+    public static final String COLUMN_PAYMENT_TOTAL_EXPENSE = "TotalExpense";
+    public static final String COLUMN_PAYMENT_CARD_ID = "CardID";
+    public static final String COLUMN_PAYMENT_DATE = "Date";
+    public static final String COLUMN_PAYMENT_ORDER_ID = "OrderId";
+
+    //name and columns for table Shipment
+    public static String TABLE_SHIPMENT = "Shipment";
+    public static String COLUMN_SHIPMENT_ID = "Id";
+    public static String COLUMN_SHIPMENT_TYPENAME = "TypeName";
+    public static String COLUMN_SHIPMENT_ORDER_ID = "OrderId";
 }

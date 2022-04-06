@@ -135,7 +135,7 @@ public class CartDAOImpl implements CartDAO{
                 Constant.COLUMN_CART_ITEM_ITEM_ID
         };
         String selection = Constant.COLUMN_CART_ITEM_ITEM_ID + " = ? AND " + Constant.COLUMN_CART_ITEM_CART_ID + " = ?";
-        String[] selectionArgs = {Integer.toString(itemId), };
+        String[] selectionArgs = {Integer.toString(itemId), Integer.toString(cartId)};
         Cursor cursor = sqLiteDatabase.query(Constant.TABLE_CART_ITEM, columns, selection, selectionArgs, null, null, null);
         int cursorCount = cursor.getCount();
         cursor.close();

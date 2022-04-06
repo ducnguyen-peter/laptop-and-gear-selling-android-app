@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -106,7 +107,7 @@ public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapte
         holder.btnPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (holder.amount <= item.getQuantity()) {
+                if (holder.amount < item.getQuantity()) {
                     holder.amount += 1;
                     holder.edtAmount.setText(String.format(Locale.ENGLISH, "%d", holder.amount));
                 } else {
@@ -130,7 +131,7 @@ public class ListItemCartAdapter extends RecyclerView.Adapter<ListItemCartAdapte
 
     public static class CartItemViewHolder extends RecyclerView.ViewHolder {
         public CheckBox cbItemCart;
-        public ImageButton imgBtnItemCart;
+        public ImageView imgBtnItemCart;
         public TextView txtItemCartName;
         public TextView txtItemCartPrice;
         public Button btnMinus;

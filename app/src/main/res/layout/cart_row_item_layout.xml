@@ -41,7 +41,7 @@
         app:layout_constraintTop_toTopOf="@+id/btn_minus"
         tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck,TouchTargetSizeCheck,TouchTargetSizeCheck" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/btn_item_cart"
         android:layout_width="80dp"
         android:layout_height="80dp"

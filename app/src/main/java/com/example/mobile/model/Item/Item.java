@@ -1,8 +1,11 @@
 package com.example.mobile.model.Item;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
-public class Item implements Serializable {
+public class Item implements Serializable{
     private int id;
     private float unitPrice;
     private int quantity;
@@ -18,6 +21,13 @@ public class Item implements Serializable {
         this.quantity = quantity;
         this.totalBuy = totalBuy;
         this.electronics = electronics;
+    }
+
+    protected Item(Parcel in) {
+        id = in.readInt();
+        unitPrice = in.readFloat();
+        quantity = in.readInt();
+        totalBuy = in.readInt();
     }
 
     public int getId() {
