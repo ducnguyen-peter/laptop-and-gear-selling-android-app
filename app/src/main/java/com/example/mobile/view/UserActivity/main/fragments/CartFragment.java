@@ -110,6 +110,7 @@ public class CartFragment extends Fragment{
             public void onClick(View view) {
                 Intent intent = new Intent(mainActivity, CheckOutActivity.class);
                 intent.putExtra("SELECTED_CART_ITEMS",selectedCartItems);
+                intent.putExtra("TOTAL_COST", cost);
                 startActivity(intent);
             }
         });

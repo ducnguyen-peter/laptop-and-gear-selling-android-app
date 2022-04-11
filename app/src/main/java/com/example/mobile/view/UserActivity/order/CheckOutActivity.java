@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class CheckOutActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class CheckOutActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
     private RecyclerView rclCheckoutItems;
     private Spinner spnShipment;
     private Spinner spnPayment;
@@ -47,6 +47,7 @@ public class CheckOutActivity extends AppCompatActivity implements AdapterView.O
     private Payment payment;
     private Shipment shipment;
     private ArrayList<OrderItem> listOrderItem;
+    private float totalCost;
 
     public CheckOutActivity() {
     }
@@ -67,6 +68,7 @@ public class CheckOutActivity extends AppCompatActivity implements AdapterView.O
         for(CartItem cartItem : selectedCartItems){
             listOrderItem.add(new OrderItem(cartItem));
         }
+        order.setOrderItems(listOrderItem);
 
         CheckOutListAdapter checkOutListAdapter = new CheckOutListAdapter(this, listOrderItem);
         checkOutListAdapter.setHasStableIds(true);
@@ -83,12 +85,16 @@ public class CheckOutActivity extends AppCompatActivity implements AdapterView.O
 
         spnPayment.setOnItemSelectedListener(this);
         spnShipment.setOnItemSelectedListener(this);
+
+        btnOrder.setOnClickListener(this);
     }
 
     public void initData(){
         Intent intent = this.getIntent();
         selectedCartItems = intent.getParcelableArrayListExtra("SELECTED_CART_ITEMS");
         listOrderItem = new ArrayList<>();
+
+        totalCost = intent.getFloatExtra("TOTAL_COST", -1);
 
         userDAO = new UserDAOImpl(this);
         user = userDAO.getUser(PreferenceUtils.getUsername(this));
@@ -109,11 +115,17 @@ public class CheckOutActivity extends AppCompatActivity implements AdapterView.O
             order.getShipment().setTypeName(arrShipmentType[i]);
             txtShipFee.setText(String.format(Locale.ENGLISH, "Ship fee: %.1fđ", order.getShipment().getShipPrice()));
             Log.d(TAG, "onItemSelected: order shipment price: " + order.getShipment().getShipPrice());
+            txtTotalCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", totalCost + order.getShipment().getShipPrice()));
         }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    @Override
+    public void onClick(View view) {
 
     }
 }

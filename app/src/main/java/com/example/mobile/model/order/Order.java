@@ -86,4 +86,15 @@ public class Order implements Serializable {
     public void setShipment(Shipment shipment) {
         this.shipment = shipment;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", status='" + status + '\'' +
+                ", user=" + user.getUsername() +
+                ", payment=" + payment.getTypeName() +
+                ", shipment=" + shipment.getTypeName() +
+                '}';
+    }
 }
