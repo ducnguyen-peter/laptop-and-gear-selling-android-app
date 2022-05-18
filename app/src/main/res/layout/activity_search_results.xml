@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.UserActivity.main.SearchResultsActivity">
+    tools:context=".view.UserActivity.main.activities.SearchResultsActivity">
 
     <GridView
         android:id="@+id/grid_item_search_result"

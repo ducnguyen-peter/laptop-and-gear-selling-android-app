@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Codes/AndroidStudio/ptud_cho_cac_thiet_bi_di_dong/mobile/app/src/main/res/layout/activity_main.xml" value="0.11302083333333333" />
+        <entry key="..\:/Documents/DAI HOC/nam4/Ki2_nam4/Phat trien ung dung di dong/Project Code/mobile/app/src/main/res/drawable/googlepay_button_background.xml" value="0.1865" />
+        <entry key="..\:/Documents/DAI HOC/nam4/Ki2_nam4/Phat trien ung dung di dong/Project Code/mobile/app/src/main/res/drawable/googlepay_button_overlay.xml" value="0.1865" />
         <entry key="..\:/Documents/DAI HOC/nam4/Ki2_nam4/Phat trien ung dung di dong/Project Code/mobile/app/src/main/res/layout/activity_account_details.xml" value="0.33" />
         <entry key="..\:/Documents/DAI HOC/nam4/Ki2_nam4/Phat trien ung dung di dong/Project Code/mobile/app/src/main/res/layout/activity_cart.xml" value="0.25" />
         <entry key="..\:/Documents/DAI HOC/nam4/Ki2_nam4/Phat trien ung dung di dong/Project Code/mobile/app/src/main/res/layout/activity_check_out.xml" value="0.33" />
@@ -15,12 +17,14 @@
         <entry key="..\:/Documents/DAI HOC/nam4/Ki2_nam4/Phat trien ung dung di dong/Project Code/mobile/app/src/main/res/layout/activity_order_result.xml" value="0.25" />
         <entry key="..\:/Documents/DAI HOC/nam4/Ki2_nam4/Phat trien ung dung di dong/Project Code/mobile/app/src/main/res/layout/activity_register.xml" value="0.33" />
         <entry key="..\:/Documents/DAI HOC/nam4/Ki2_nam4/Phat trien ung dung di dong/Project Code/mobile/app/src/main/res/layout/activity_search_results.xml" value="0.25" />
+        <entry key="..\:/Documents/DAI HOC/nam4/Ki2_nam4/Phat trien ung dung di dong/Project Code/mobile/app/src/main/res/layout/bottom_sheet_credit_card_layout.xml" value="0.25" />
         <entry key="..\:/Documents/DAI HOC/nam4/Ki2_nam4/Phat trien ung dung di dong/Project Code/mobile/app/src/main/res/layout/cart_fragment_layout.xml" value="0.33" />
         <entry key="..\:/Documents/DAI HOC/nam4/Ki2_nam4/Phat trien ung dung di dong/Project Code/mobile/app/src/main/res/layout/cart_row_background_menu_layout.xml" value="0.25" />
         <entry key="..\:/Documents/DAI HOC/nam4/Ki2_nam4/Phat trien ung dung di dong/Project Code/mobile/app/src/main/res/layout/cart_row_item_layout.xml" value="0.33" />
         <entry key="..\:/Documents/DAI HOC/nam4/Ki2_nam4/Phat trien ung dung di dong/Project Code/mobile/app/src/main/res/layout/grid_item_layout.xml" value="0.33" />
         <entry key="..\:/Documents/DAI HOC/nam4/Ki2_nam4/Phat trien ung dung di dong/Project Code/mobile/app/src/main/res/layout/home_fragment_layout.xml" value="0.25" />
         <entry key="..\:/Documents/DAI HOC/nam4/Ki2_nam4/Phat trien ung dung di dong/Project Code/mobile/app/src/main/res/layout/order_row_item_layout.xml" value="0.33" />
+        <entry key="..\:/Documents/DAI HOC/nam4/Ki2_nam4/Phat trien ung dung di dong/Project Code/mobile/app/src/main/res/layout/order_with_googlepay_button.xml" value="0.25" />
         <entry key="..\:/Documents/DAI HOC/nam4/Ki2_nam4/Phat trien ung dung di dong/Project Code/mobile/app/src/main/res/layout/user_profile_fragment_layout.xml" value="0.25" />
         <entry key="..\:/Documents/DAI HOC/nam4/Ki2_nam4/Phat trien ung dung di dong/Project Code/mobile/app/src/main/res/menu/actionbar_menu.xml" value="0.33" />
         <entry key="..\:/Documents/DAI HOC/nam4/Ki2_nam4/Phat trien ung dung di dong/Project Code/mobile/app/src/main/res/menu/bottom_nav_menu.xml" value="0.20416666666666666" />

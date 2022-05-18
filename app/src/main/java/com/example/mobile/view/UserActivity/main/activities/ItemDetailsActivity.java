@@ -1,4 +1,4 @@
-package com.example.mobile.view.UserActivity.main;
+package com.example.mobile.view.UserActivity.main.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +12,6 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +24,6 @@ import com.example.mobile.model.Item.Category;
 import com.example.mobile.model.Item.Item;
 import com.example.mobile.utils.PreferenceUtils;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Locale;
 

@@ -1,5 +1,11 @@
 package com.example.mobile.utils;
 
+import com.google.android.gms.wallet.WalletConstants;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
 public class Constant {
     private Constant(){
 
@@ -83,8 +89,8 @@ public class Constant {
     public static String KEY_PASSWORD = "password";
     public static String KEY_CART_ID = "cartId";
 
-    //name and columns for table Order
-    public static final String TABLE_ORDER = "Order";
+    //name and columns for table OrderOfUser
+    public static final String TABLE_ORDER = "OrderOfUser";
     public static final String COLUMN_ORDER_ID = "Id";
     public static final String COLUMN_ORDER_STATUS = "Status";
     public static final String COLUMN_ORDER_USER_ID = "UserId";
@@ -111,4 +117,33 @@ public class Constant {
     public static String COLUMN_SHIPMENT_ID = "Id";
     public static String COLUMN_SHIPMENT_TYPENAME = "TypeName";
     public static String COLUMN_SHIPMENT_ORDER_ID = "OrderId";
+
+    //constants for payments
+    public static final int PAYMENTS_ENVIRONMENT = WalletConstants.ENVIRONMENT_TEST;
+    public static final List<String> SUPPORTED_NETWORKS = Arrays.asList(
+            "AMEX",
+            "DISCOVER",
+            "JCB",
+            "MASTERCARD",
+            "VISA");
+    public static final List<String> SUPPORTED_METHODS = Arrays.asList(
+            "PAN_ONLY",
+            "CRYPTOGRAM_3DS");
+    public static final String COUNTRY_CODE = "VI";
+    public static final String CURRENCY_CODE = "VND";
+    public static final List<String> SHIPPING_SUPPORTED_COUNTRIES = Arrays.asList("US", "GB", "VI");
+    //unused
+    public static final String PAYMENT_GATEWAY_TOKENIZATION_NAME = "example";
+    public static final HashMap<String, String> PAYMENT_GATEWAY_TOKENIZATION_PARAMETERS =
+            new HashMap<String, String>() {{
+                put("gateway", PAYMENT_GATEWAY_TOKENIZATION_NAME);
+                put("gatewayMerchantId", "exampleGatewayMerchantId");
+                // Your processor may require additional parameters.
+            }};
+    public static final String DIRECT_TOKENIZATION_PUBLIC_KEY = "REPLACE_ME";
+    public static final HashMap<String, String> DIRECT_TOKENIZATION_PARAMETERS =
+            new HashMap<String, String>() {{
+                put("protocolVersion", "ECv2");
+                put("publicKey", DIRECT_TOKENIZATION_PUBLIC_KEY);
+            }};
 }

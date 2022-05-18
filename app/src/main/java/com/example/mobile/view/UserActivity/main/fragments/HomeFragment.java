@@ -25,8 +25,8 @@ import androidx.fragment.app.Fragment;
 import com.example.mobile.R;
 import com.example.mobile.controller.ItemDAO.ItemDAOImpl;
 import com.example.mobile.model.Item.Item;
-import com.example.mobile.view.UserActivity.main.ItemDetailsActivity;
-import com.example.mobile.view.UserActivity.main.MainActivity;
+import com.example.mobile.view.UserActivity.main.activities.ItemDetailsActivity;
+import com.example.mobile.view.UserActivity.main.activities.MainActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -66,7 +66,8 @@ public class HomeFragment extends Fragment {
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
-                        if(result.getResultCode()== Activity.RESULT_OK) iSendData.updateCartData();
+//                        if(result.getResultCode()== Activity.RESULT_OK)
+                        iSendData.updateCartData();
                         Log.d(TAG, "onActivityResult: Failed to update cart");
                     }
                 }

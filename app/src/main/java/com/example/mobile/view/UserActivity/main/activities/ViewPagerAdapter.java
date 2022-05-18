@@ -1,14 +1,10 @@
-package com.example.mobile.view.UserActivity.main;
+package com.example.mobile.view.UserActivity.main.activities;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.mobile.model.cart.Cart;
-import com.example.mobile.view.UserActivity.main.MainActivity;
 import com.example.mobile.view.UserActivity.main.fragments.CartFragment;
 import com.example.mobile.view.UserActivity.main.fragments.HomeFragment;
 import com.example.mobile.view.UserActivity.main.fragments.UserProfileFragment;

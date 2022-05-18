@@ -1,4 +1,4 @@
-package com.example.mobile.view.UserActivity.main;
+package com.example.mobile.view.UserActivity.main.activities;
 
 
 import androidx.annotation.NonNull;
@@ -22,6 +22,11 @@ import com.example.mobile.view.UserActivity.main.fragments.HomeFragment;
 import com.example.mobile.view.UserActivity.main.fragments.ISendData;
 import com.example.mobile.view.UserActivity.main.fragments.UserProfileFragment;
 import com.example.mobile.view.UserActivity.verifyuser.LoginActivity;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import android.app.SearchManager;
@@ -47,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private CartDAOImpl cartDAOImpl;
     private ItemDAOImpl itemDAOImpl;
 
+    private GoogleSignInClient gsc;
+    private GoogleSignInOptions gso;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +63,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         cartDAOImpl = new CartDAOImpl(this);
         itemDAOImpl = new ItemDAOImpl(this);
         User user = userDAOImpl.getUser(PreferenceUtils.getUsername(this));
+
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        gsc = GoogleSignIn.getClient(this,gso);
+
         if (!cartDAOImpl.isCartExisted(user)) {
             Cart cart = cartDAOImpl.createCart(user);
             PreferenceUtils.saveCartId(cart.getId(), this);
@@ -91,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void setupViewPager() {
-        //init view pager
+        //init view pager and bottom navbar
         viewPagerMain = findViewById(R.id.view_pager_main);
         bottomNavigation = findViewById(R.id.bottom_navigation);
         homeFragment = new HomeFragment(this);
@@ -100,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         viewPagerAdapter = new ViewPagerAdapter(this, homeFragment, cartFragment, userProfileFragment);
         viewPagerMain.setAdapter(viewPagerAdapter);
+
         //when clicking an item (a tab) of the bottom navigation bar
         bottomNavigation.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.action_home) {
@@ -112,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             return true;
         });
 
-        //when swiping the view pager
+        //when swiping the view pager, set the corresponding bottom navbar item to selected
         viewPagerMain.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -136,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         });
     }
 
-    //action bar menu
+    //action bar menu, search, login
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.getMenuInflater().inflate(R.menu.actionbar_menu, menu);
@@ -158,8 +171,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             PreferenceUtils.saveUsername(null, this);
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            this.finish();
+            gsc.signOut().addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    startActivity(intent);
+                    MainActivity.this.finish();
+                }
+            });
+            gsc.revokeAccess();
+//            startActivity(intent);
+//            this.finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

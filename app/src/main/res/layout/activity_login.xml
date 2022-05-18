@@ -97,4 +97,15 @@
         app:layout_constraintStart_toStartOf="@+id/btn_signup_link"
         app:layout_constraintTop_toTopOf="@+id/btn_signup_link" />
 
+    <Button
+        android:id="@+id/btn_gg_signin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Sign in with Google"
+        app:layout_constraintEnd_toEndOf="@+id/btn_forgot_pass"
+        app:layout_constraintHorizontal_bias="0.388"
+        app:layout_constraintStart_toStartOf="@+id/btn_forgot_pass"
+        app:layout_constraintTop_toBottomOf="@+id/btn_forgot_pass" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

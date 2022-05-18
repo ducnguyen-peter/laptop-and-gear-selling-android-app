@@ -26,7 +26,7 @@ import com.example.mobile.controller.UserDAO.UserDAOImpl;
 import com.example.mobile.model.cart.Cart;
 import com.example.mobile.model.cart.CartItem;
 import com.example.mobile.utils.PreferenceUtils;
-import com.example.mobile.view.UserActivity.main.MainActivity;
+import com.example.mobile.view.UserActivity.main.activities.MainActivity;
 import com.example.mobile.view.UserActivity.order.CheckOutActivity;
 
 import java.util.ArrayList;
@@ -103,8 +103,9 @@ public class CartFragment extends Fragment{
                 }
             }
         });
+
         txtTotalCartCost.setText(String.format(Locale.ENGLISH, "Total: %.1fđ", cost));
-        if(selectedCartItems.size()==0) btnBuy.setEnabled(false);
+        if(selectedCartItems.size()<=0) btnBuy.setEnabled(false);
         btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

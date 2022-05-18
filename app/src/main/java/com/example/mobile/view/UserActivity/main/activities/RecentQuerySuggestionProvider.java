@@ -1,4 +1,4 @@
-package com.example.mobile.view.UserActivity.main;
+package com.example.mobile.view.UserActivity.main.activities;
 
 import android.content.SearchRecentSuggestionsProvider;
 

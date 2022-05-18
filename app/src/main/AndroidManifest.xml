@@ -14,6 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mobile">
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
         <activity
             android:name=".view.UserActivity.order.OrderResultActivity"
             android:exported="false" />
@@ -21,7 +24,7 @@
             android:name=".view.UserActivity.order.CheckOutActivity"
             android:exported="false" />
         <activity
-            android:name=".view.UserActivity.main.SearchResultsActivity"
+            android:name=".view.UserActivity.main.activities.SearchResultsActivity"
             android:exported="false"
             android:launchMode="singleTop">
             <intent-filter>
@@ -33,7 +36,7 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".view.UserActivity.main.ItemDetailsActivity"
+            android:name=".view.UserActivity.main.activities.ItemDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".view.UserActivity.verifyuser.ConfirmNewPassActivity"
@@ -42,7 +45,7 @@
             android:name=".view.UserActivity.verifyuser.ForgotPassIdentificationActivity"
             android:exported="false" />
         <activity
-            android:name=".view.UserActivity.main.MainActivity"
+            android:name=".view.UserActivity.main.activities.MainActivity"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -66,7 +69,7 @@
         </activity>
 
         <provider
-            android:name=".view.UserActivity.main.RecentQuerySuggestionProvider"
+            android:name=".view.UserActivity.main.activities.RecentQuerySuggestionProvider"
             android:authorities="com.example.RecentQuerySuggestionProvider" />
     </application>
 

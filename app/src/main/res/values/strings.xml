@@ -32,13 +32,13 @@
     <string name="cart">Cart</string>
     <string name="shipment_method">Shipment method</string>
     <string name="txt_product1">Product 1</string>
-    <string name="order">Order</string>
+    <string name="orderOfUser">Order</string>
     <string name="x_cai">x cai</string>
     <string name="all">All</string>
-    <string name="tong_thanh_toan_xxx_xxx_vnd">Tong thanh toan: xxx.xxx VND</string>
+    <string name="total_cost">Total cost: xxx VND</string>
     <string name="payment_method">Payment method</string>
     <string name="success">Success!</string>
-    <string name="see_order_details">See order details</string>
+    <string name="see_order_details">See orderOfUser details</string>
     <string name="back_to_home">Back to Home page</string>
     <string name="account">Account</string>
     <string name="nguyen_van_a">Nguyen Van A</string>
@@ -55,4 +55,8 @@
         <item>COD</item>
         <item>Credit card</item>
     </string-array>
+
+    <string name="order_with_googlepay_button_content_description">order with google pay button</string>
+    <string name="googlepay_status_unavailable">Unfortunately, Google Pay is not available on this device.</string>
+    <string name="payments_show_name">Successfully received payment data for %s!</string>
 </resources>

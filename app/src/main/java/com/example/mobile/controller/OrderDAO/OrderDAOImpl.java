@@ -6,17 +6,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
-import com.example.mobile.model.cart.Cart;
-import com.example.mobile.model.order.Order;
+import com.example.mobile.model.order.OrderOfUser;
 import com.example.mobile.model.order.OrderItem;
-import com.example.mobile.model.user.User;
 import com.example.mobile.utils.Constant;
 import com.example.mobile.utils.DBHelper;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
 public class OrderDAOImpl implements OrderDAO{
@@ -41,22 +36,22 @@ public class OrderDAOImpl implements OrderDAO{
         dbHelper.close();
     }
 
-    public Order createOrder(Order order){
+    public OrderOfUser createOrder(OrderOfUser orderOfUser){
         try {
-            //create blank order
+            //create blank orderOfUser
             ContentValues values = new ContentValues();
             values.put(Constant.COLUMN_ORDER_STATUS, 0);
-            values.put(Constant.COLUMN_ORDER_USER_ID, order.getUser().getId());
+            values.put(Constant.COLUMN_ORDER_USER_ID, orderOfUser.getUser().getId());
             long id = sqLiteDatabase.insertOrThrow(Constant.TABLE_ORDER, null, values);
 //            System.out.println(id);
-            order.setId((int) id);
+            orderOfUser.setId((int) id);
             values.clear();
 
-            //insert items into order
-            for(OrderItem orderItem : order.getOrderItems()){
+            //insert items into orderOfUser
+            for(OrderItem orderItem : orderOfUser.getOrderItems()){
                 values.put(Constant.COLUMN_ORDER_ITEM_AMOUNT, orderItem.getAmount());
                 values.put(Constant.COLUMN_ORDER_ITEM_DISCOUNT,orderItem.getDiscount());
-                values.put(Constant.COLUMN_ORDER_ITEM_ORDER_ID, order.getId());
+                values.put(Constant.COLUMN_ORDER_ITEM_ORDER_ID, orderOfUser.getId());
                 values.put(Constant.COLUMN_ORDER_ITEM_ITEM_ID, orderItem.getItem().getId());
                 sqLiteDatabase.insertOrThrow(Constant.TABLE_ORDER_ITEM, null, values);
                 values.clear();
@@ -64,30 +59,30 @@ public class OrderDAOImpl implements OrderDAO{
             values.clear();
 
             //add shipment methods
-            values.put(Constant.COLUMN_SHIPMENT_TYPENAME, order.getShipment().getTypeName());
-            values.put(Constant.COLUMN_SHIPMENT_ORDER_ID, order.getId());
+            values.put(Constant.COLUMN_SHIPMENT_TYPENAME, orderOfUser.getShipment().getTypeName());
+            values.put(Constant.COLUMN_SHIPMENT_ORDER_ID, orderOfUser.getId());
             long shipmentId = sqLiteDatabase.insertOrThrow(Constant.TABLE_SHIPMENT, null, values);
-            order.getShipment().setId((int) shipmentId);
+            orderOfUser.getShipment().setId((int) shipmentId);
             values.clear();
 
             //add payment method
-            values.put(Constant.COLUMN_PAYMENT_TYPE, order.getPayment().getType());
-            values.put(Constant.COLUMN_PAYMENT_TYPENAME, order.getPayment().getTypeName());
-            values.put(Constant.COLUMN_PAYMENT_TOTAL_EXPENSE, order.getPayment().getTotalExpense());
-            values.put(Constant.COLUMN_PAYMENT_CARD_ID, order.getPayment().getCardId());
-            values.put(Constant.COLUMN_PAYMENT_DATE, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(order.getPayment().getDate()));
-            values.put(Constant.COLUMN_PAYMENT_ORDER_ID, order.getId());
+            values.put(Constant.COLUMN_PAYMENT_TYPE, orderOfUser.getPayment().getType());
+            values.put(Constant.COLUMN_PAYMENT_TYPENAME, orderOfUser.getPayment().getTypeName());
+            values.put(Constant.COLUMN_PAYMENT_TOTAL_EXPENSE, orderOfUser.getPayment().getTotalExpense());
+            values.put(Constant.COLUMN_PAYMENT_CARD_ID, orderOfUser.getPayment().getCardId());
+            values.put(Constant.COLUMN_PAYMENT_DATE, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(orderOfUser.getPayment().getDate()));
+            values.put(Constant.COLUMN_PAYMENT_ORDER_ID, orderOfUser.getId());
             long paymentId = sqLiteDatabase.insertOrThrow(Constant.TABLE_PAYMENT, null, values);
-            order.getPayment().setId((int) paymentId);
+            orderOfUser.getPayment().setId((int) paymentId);
             values.clear();
 
         }catch (SQLiteException e){
             e.printStackTrace();
         }
-        System.out.println("createOrder(): New cart Id: " + order.getId());
+        System.out.println("createOrder(): New cart Id: " + orderOfUser.getId());
 
 
-        return order;
+        return orderOfUser;
     }
 
 

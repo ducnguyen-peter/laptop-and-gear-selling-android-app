@@ -5,7 +5,7 @@ import com.example.mobile.model.user.User;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Order implements Serializable {
+public class OrderOfUser implements Serializable {
     private int id;
     private String status;
     private User user;
@@ -17,21 +17,21 @@ public class Order implements Serializable {
     public static final String ORDER_STATUS_DELIVERING = "Delivering";
     public static final String ORDER_STATUS_DELIVERED = "Delivered";
 
-    public Order() {
+    public OrderOfUser() {
     }
 
-    public Order(User user) {
+    public OrderOfUser(User user) {
         this.user = user;
     }
 
-    public Order(int id, String status, User user, ArrayList<OrderItem> orderItems) {
+    public OrderOfUser(int id, String status, User user, ArrayList<OrderItem> orderItems) {
         this.id = id;
         this.status = status;
         this.user = user;
         this.orderItems = orderItems;
     }
 
-    public Order(String status, User user, ArrayList<OrderItem> orderItems, Payment payment, Shipment shipment) {
+    public OrderOfUser(String status, User user, ArrayList<OrderItem> orderItems, Payment payment, Shipment shipment) {
         this.status = status;
         this.user = user;
         this.orderItems = orderItems;
@@ -89,7 +89,7 @@ public class Order implements Serializable {
 
     @Override
     public String toString() {
-        return "Order{" +
+        return "OrderOfUser{" +
                 "id=" + id +
                 ", status='" + status + '\'' +
                 ", user=" + user.getUsername() +
