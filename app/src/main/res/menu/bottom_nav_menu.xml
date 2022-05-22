@@ -12,9 +12,9 @@
         android:icon="@drawable/baseline_shopping_cart_white_24dp"
         app:showAsAction="never" />
 
-    <item android:id="@+id/action_user_profile"
-        android:title="@string/user_profile"
-        android:icon="@drawable/baseline_account_circle_white_24dp"
+    <item android:id="@+id/action_order_list"
+        android:title="@string/order"
+        android:icon="@drawable/order_item_icon"
         app:showAsAction="never"/>
 
 </menu>

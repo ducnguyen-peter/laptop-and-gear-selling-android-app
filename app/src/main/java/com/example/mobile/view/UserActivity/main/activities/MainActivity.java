@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 viewPagerMain.setCurrentItem(0);
             } else if (item.getItemId() == R.id.action_cart) {
                 viewPagerMain.setCurrentItem(1);
-            } else if (item.getItemId() == R.id.action_user_profile) {
+            } else if (item.getItemId() == R.id.action_order_list) {
                 viewPagerMain.setCurrentItem(2);
             }
             return true;
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         bottomNavigation.getMenu().findItem(R.id.action_cart).setChecked(true);
                         break;
                     case 2:
-                        bottomNavigation.getMenu().findItem(R.id.action_user_profile).setChecked(true);
+                        bottomNavigation.getMenu().findItem(R.id.action_order_list).setChecked(true);
                         break;
                 }
             }

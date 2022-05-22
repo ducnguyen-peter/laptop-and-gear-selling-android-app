@@ -32,7 +32,7 @@
     <string name="cart">Cart</string>
     <string name="shipment_method">Shipment method</string>
     <string name="txt_product1">Product 1</string>
-    <string name="orderOfUser">Order</string>
+    <string name="order">Order</string>
     <string name="x_cai">x cai</string>
     <string name="all">All</string>
     <string name="total_cost">Total cost: xxx VND</string>

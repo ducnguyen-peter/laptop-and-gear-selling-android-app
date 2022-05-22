@@ -110,7 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:backgroundTint="#FF8F9193"
-            android:text="@string/orderOfUser"
+            android:text="@string/order"
             android:textAllCaps="false"
             android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="parent"
