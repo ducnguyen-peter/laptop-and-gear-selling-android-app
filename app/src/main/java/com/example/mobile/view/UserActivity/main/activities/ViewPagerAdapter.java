@@ -7,17 +7,17 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.mobile.view.UserActivity.main.fragments.CartFragment;
 import com.example.mobile.view.UserActivity.main.fragments.HomeFragment;
-import com.example.mobile.view.UserActivity.main.fragments.UserProfileFragment;
+import com.example.mobile.view.UserActivity.main.fragments.OrderFragment;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
     private HomeFragment homeFragment;
     private CartFragment cartFragment;
-    private UserProfileFragment userProfileFragment;
-    public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity, HomeFragment homeFragment, CartFragment cartFragment, UserProfileFragment userProfileFragment) {
+    private OrderFragment orderFragment;
+    public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity, HomeFragment homeFragment, CartFragment cartFragment, OrderFragment orderFragment) {
         super(fragmentActivity);
         this.homeFragment = homeFragment;
         this.cartFragment = cartFragment;
-        this.userProfileFragment = userProfileFragment;
+        this.orderFragment = orderFragment;
     }
 
     @NonNull
@@ -29,7 +29,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
             case 1:
                 return cartFragment;
             case 2:
-                return userProfileFragment;
+                return orderFragment;
             default:
                 return homeFragment;
         }
@@ -42,5 +42,9 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
 
     public CartFragment getCartFragment() {
         return cartFragment;
+    }
+
+    public OrderFragment getOrderFragment(){
+        return orderFragment;
     }
 }

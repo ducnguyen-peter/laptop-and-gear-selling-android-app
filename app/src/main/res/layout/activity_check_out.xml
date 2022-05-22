@@ -10,7 +10,7 @@
         android:id="@+id/rcl_checkout_item"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/txt_order_address"
+        app:layout_constraintBottom_toTopOf="@+id/edt_order_address"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -94,17 +94,15 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
-        <include
-            android:id="@+id/btn_order_with_ggpay"
+        <com.paypal.checkout.paymentbutton.PayPalButton
+            android:id="@+id/payPalButton"
             android:layout_width="150dp"
-            android:layout_height="48sp"
-            layout="@layout/order_with_googlepay_button"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/txt_total_order"
-            app:layout_constraintEnd_toStartOf="@+id/btn_order"
-            android:layout_marginStart="120dp"
-            />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txt_total_order"
+            app:layout_constraintEnd_toStartOf="@+id/btn_order"/>
+
 
         <Button
             android:id="@+id/btn_order"
@@ -123,11 +121,12 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/txt_order_address"
+    <EditText
+        android:id="@+id/edt_order_address"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginBottom="16dp"
+        android:hint="Shipping Address"
         app:layout_constraintBottom_toTopOf="@+id/spn_payment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

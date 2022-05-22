@@ -20,7 +20,7 @@ import com.example.mobile.utils.PreferenceUtils;
 import com.example.mobile.view.UserActivity.main.fragments.CartFragment;
 import com.example.mobile.view.UserActivity.main.fragments.HomeFragment;
 import com.example.mobile.view.UserActivity.main.fragments.ISendData;
-import com.example.mobile.view.UserActivity.main.fragments.UserProfileFragment;
+import com.example.mobile.view.UserActivity.main.fragments.OrderFragment;
 import com.example.mobile.view.UserActivity.verifyuser.LoginActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private HomeFragment homeFragment;
     private CartFragment cartFragment;
-    private UserProfileFragment userProfileFragment;
+    private OrderFragment orderFragment;
 
     private UserDAOImpl userDAOImpl;
     private CartDAOImpl cartDAOImpl;
@@ -108,9 +108,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         bottomNavigation = findViewById(R.id.bottom_navigation);
         homeFragment = new HomeFragment(this);
         cartFragment = new CartFragment(this);
-        userProfileFragment = new UserProfileFragment();
+        orderFragment = new OrderFragment(this);
 
-        viewPagerAdapter = new ViewPagerAdapter(this, homeFragment, cartFragment, userProfileFragment);
+        viewPagerAdapter = new ViewPagerAdapter(this, homeFragment, cartFragment, orderFragment);
         viewPagerMain.setAdapter(viewPagerAdapter);
 
         //when clicking an item (a tab) of the bottom navigation bar
@@ -219,5 +219,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void deleteCartItem(CartItem cartItem) {
         viewPagerAdapter.getCartFragment().deleteCartItem(cartItem);
+    }
+
+    @Override
+    public void updateOrderList() {
+        viewPagerAdapter.getOrderFragment().updateOrderList();
     }
 }

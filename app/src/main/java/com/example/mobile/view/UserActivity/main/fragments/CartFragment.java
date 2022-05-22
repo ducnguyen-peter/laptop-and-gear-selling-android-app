@@ -2,6 +2,7 @@ package com.example.mobile.view.UserActivity.main.fragments;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,10 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -49,6 +54,7 @@ public class CartFragment extends Fragment{
     private ArrayList<CartItem> cartItemsList;
     private ArrayList<CartItem> selectedCartItems;
     private float cost;
+    ActivityResultLauncher<Intent> activityLauncher;
 
     //parents view and interface
     private MainActivity mainActivity;
@@ -75,8 +81,6 @@ public class CartFragment extends Fragment{
         cost = getTotalCartCost();
 
         selectedCartItems = new ArrayList<>();
-
-
     }
 
     @Nullable
@@ -112,9 +116,23 @@ public class CartFragment extends Fragment{
                 Intent intent = new Intent(mainActivity, CheckOutActivity.class);
                 intent.putExtra("SELECTED_CART_ITEMS",selectedCartItems);
                 intent.putExtra("TOTAL_COST", cost);
-                startActivity(intent);
+                activityLauncher.launch(intent);
             }
         });
+
+        activityLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if(result.getResultCode()== Activity.RESULT_OK){
+                            updateCartData();
+                            iSendData.updateOrderList();
+                        }
+                        Log.d(TAG, "onActivityResult: Failed to update cart");
+                    }
+                }
+        );
 
         return view;
     }

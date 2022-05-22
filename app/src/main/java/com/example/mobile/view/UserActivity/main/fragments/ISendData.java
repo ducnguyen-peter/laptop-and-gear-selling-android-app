@@ -12,4 +12,5 @@ public interface ISendData {
     void removeSelectedCartItems(CartItem cartItem);
     void updateSelectedCartItemsAmount(CartItem cartItem, int amount);
     void deleteCartItem(CartItem cartItem);
+    void updateOrderList();
 }
