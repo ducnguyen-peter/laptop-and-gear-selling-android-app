@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -58,6 +59,7 @@ public class OrderFragment extends Fragment {
         rclOrderList.setAdapter(orderListAdapter);
         rclOrderList.setLayoutManager(manager);
         rclOrderList.setHasFixedSize(true);
+
         return view;
     }
 
@@ -66,5 +68,6 @@ public class OrderFragment extends Fragment {
         if(userName!=null) Log.d(TAG, "updateCartData: " + userName);
         orderList.clear();
         orderList.addAll(orderDAO.getAllOrders(userDAO.getUser(userName)));
+        orderListAdapter.notifyDataSetChanged();
     }
 }

@@ -110,16 +110,20 @@ public class OrderDAOImpl implements OrderDAO{
 
     public ArrayList<OrderItem> getOrderItem(OrderOfUser order){
         ArrayList<OrderItem> orderItems = new ArrayList<>();
-        String queryOrderItem = "SELECT OrderItem.Quantity, OrderItem.Discount, OrderItem.ItemId \n" +
-                "FROM [Order], OrderItem, Item \n" +
-                "WHERE [Order].Id = OrderItem.OrderId AND OrderItem.ItemId = Item.Id AND [Order].Id = ?;";
-        Cursor cursor = sqLiteDatabase.rawQuery(queryOrderItem, new String[]{Integer.toString(order.getId())});
-        cursor.moveToFirst();
-        OrderItem orderItem;
-        while(!cursor.isAfterLast()){
-            orderItem = cursorToOrderItem(cursor);
-            orderItems.add(orderItem);
-            cursor.moveToNext();
+        try{
+            String queryOrderItem = "SELECT OrderItem.Quantity, OrderItem.Discount, OrderItem.ItemId\n" +
+                    "                    FROM [Order], OrderItem, Item\n" +
+                    "                    WHERE [Order].Id = OrderItem.OrderId AND OrderItem.ItemId = Item.Id AND [Order].Id = ?;";
+            Cursor cursor = sqLiteDatabase.rawQuery(queryOrderItem, new String[]{Integer.toString(order.getId())});
+            cursor.moveToFirst();
+            OrderItem orderItem;
+            while(!cursor.isAfterLast()){
+                orderItem = cursorToOrderItem(cursor);
+                orderItems.add(orderItem);
+                cursor.moveToNext();
+            }
+        }catch (SQLiteException e){
+            e.printStackTrace();
         }
         return orderItems;
     }

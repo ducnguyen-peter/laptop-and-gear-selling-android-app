@@ -230,6 +230,7 @@ public class CheckOutActivity extends AppCompatActivity implements AdapterView.O
     public void onClick(View view) {
         if(view==btnOrder){
             if(orderOfUser.getPayment().getType()==0){
+                orderOfUser.getPayment().setTotalExpense(totalCost+orderOfUser.getShipment().getShipPrice());
                 orderDAO.createOrder(orderOfUser);
                 for(CartItem cartItem : selectedCartItems){
                     cartDAO.deleteCartItem(cartItem, cartDAO.getCartOfUser(user).getId());

@@ -1,12 +1,14 @@
 package com.example.mobile.view.UserActivity.order;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobile.R;
@@ -36,6 +38,14 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
     public void onBindViewHolder(@NonNull OrderListViewHolder holder, int position) {
         OrderOfUser order = orderList.get(position);
         holder.txtOrderId.setText("Order Id: " + order.getId());
+        holder.orderRowLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, OrderDetailsActivity.class);
+                intent.putExtra("ORDER", order);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -44,10 +54,12 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
     }
 
     public static class OrderListViewHolder extends RecyclerView.ViewHolder {
+        public ConstraintLayout orderRowLayout;
         public TextView txtOrderId;
 
         public OrderListViewHolder(@NonNull View itemView) {
             super(itemView);
+            orderRowLayout = itemView.findViewById(R.id.order_row);
             txtOrderId = itemView.findViewById(R.id.txt_order_id);
         }
 

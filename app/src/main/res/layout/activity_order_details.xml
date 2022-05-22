@@ -6,4 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".view.UserActivity.order.OrderDetailsActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcl_order_item"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_order_id_username" />
+
+    <TextView
+        android:id="@+id/txt_order_id_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Order ID, Username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_payment_order_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="Payment"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.316"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rcl_order_item" />
+
+    <TextView
+        android:id="@+id/txt_shipment_order_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:text="Shipment"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/txt_payment_order_details"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/txt_payment_order_details"
+        app:layout_constraintTop_toBottomOf="@+id/txt_payment_order_details" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
